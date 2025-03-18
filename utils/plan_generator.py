@@ -1,9 +1,15 @@
 import json
 import os
+from utils.ai_generator import (
+    generate_ai_strategies, 
+    generate_ai_next_steps, 
+    generate_ai_messaging_advice
+)
 
 def generate_launch_plan(form_data, external_strategies=None):
     """
-    Generate a personalized launch plan based on form inputs
+    Generate a personalized launch plan based on form inputs,
+    enhanced with AI-generated content where possible
     
     Args:
         form_data (dict): User form data with selections
@@ -12,24 +18,30 @@ def generate_launch_plan(form_data, external_strategies=None):
     Returns:
         dict: The generated launch plan
     """
-    # Get personalized advice based on form selections
-    messaging_advice = get_messaging_advice(form_data['messaging_tested'])
+    # Get personalized advice based on form selections - use AI if possible
+    messaging_advice = generate_ai_messaging_advice(form_data['messaging_tested'])
     
-    # Get recommended strategies based on launch type, funding, and goal
-    strategies = get_launch_strategies(
+    # Get standard strategies as a fallback
+    standard_strategies = get_standard_strategies(
         form_data['launch_type'], 
         form_data['funding_status'], 
         form_data['primary_goal'],
         external_strategies
     )
     
-    # Get next steps based on funding, audience, and post-launch priority
-    next_steps = get_next_steps(
+    # Try to get AI-enhanced strategies, with fallback to standard ones
+    recommended_strategies = generate_ai_strategies(form_data, fallback_strategies=standard_strategies)
+    
+    # Get standard next steps as a fallback
+    standard_next_steps = get_standard_next_steps(
         form_data['funding_status'],
         form_data['audience_readiness'],
         form_data['post_launch_priority'],
         external_strategies
     )
+    
+    # Try to get AI-enhanced next steps, with fallback to standard ones
+    next_steps = generate_ai_next_steps(form_data, fallback_steps=standard_next_steps)
     
     # Format the complete launch plan
     plan = {
@@ -41,24 +53,15 @@ def generate_launch_plan(form_data, external_strategies=None):
             'funding_status': form_data['funding_status'],
             'primary_goal': form_data['primary_goal']
         },
-        'recommended_strategies': strategies,
+        'recommended_strategies': recommended_strategies,
         'next_steps': next_steps
     }
     
     return plan
 
-def get_messaging_advice(messaging_tested):
-    """Get personalized messaging advice based on form selection"""
-    if messaging_tested == "Yes, I've gotten direct feedback on my messaging":
-        return "Your messaging is already rooted in real insights, which gives us a solid foundation for your launch."
-    elif messaging_tested == "Sort of... I've talked to people, but nothing structured":
-        return "Before finalizing your launch plan, consider conducting 7 structured interviews with your ideal audience. Show them your landing page and collect specific feedback on what's compelling and what would make them buy."
-    else:
-        return "Your first step should be validating your messaging. Create a draft landing page and put it in front of your target audience to collect real reactions before investing in your launch."
-
-def get_launch_strategies(launch_type, funding_status, primary_goal, external_strategies=None):
+def get_standard_strategies(launch_type, funding_status, primary_goal, external_strategies=None):
     """
-    Get launch strategies based on user selections
+    Get standard launch strategies based on user selections
     
     This function first tries to use externally loaded strategies from a JSON file,
     and falls back to hardcoded strategies if external strategies are not available
@@ -248,15 +251,10 @@ def get_launch_strategies(launch_type, funding_status, primary_goal, external_st
             "Focus on 1-2 high-impact marketing channels that align with your resources",
             "Build relationships with influencers and partners in your industry"
         ]
-    
 
-
-
-
-
-def get_next_steps(funding_status, audience_readiness, post_launch_priority, external_strategies=None):
+def get_standard_next_steps(funding_status, audience_readiness, post_launch_priority, external_strategies=None):
     """
-    Get next steps based on user selections
+    Get standard next steps based on user selections
     
     This function first tries to use externally loaded strategies from a JSON file,
     and falls back to hardcoded next steps if external strategies are not available
