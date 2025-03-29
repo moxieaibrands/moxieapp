@@ -8,7 +8,7 @@ from utils.email_sender import send_email_to_user
 from utils.plan_generator import generate_launch_plan
 from utils.ui_components import (
     option_selector, step_navigation, step_card, 
-    pricing_section, info_box
+    pricing_section, info_box, display_user_responses_summary
 )
 
 # Set page configuration
@@ -661,6 +661,104 @@ def reset_form():
     st.session_state.email_sent = False
     st.session_state.step = 1
     st.experimental_rerun()
+
+
+
+def display_results():
+    """Display generated plan and offer email sending"""
+    plan = st.session_state.generated_plan
+    form_data = st.session_state.form_data
+    
+    if not plan:
+        st.error("Something went wrong. Please try again.")
+        if st.button("Start Over"):
+            reset_form()
+        return
+    
+    st.markdown('<div class="result-card">', unsafe_allow_html=True)
+    st.markdown('<div class="result-header">', unsafe_allow_html=True)
+    st.markdown('<h2>Your High-Impact Launch Plan</h2>', unsafe_allow_html=True)
+    st.markdown('<div class="ready-badge">Ready</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Display summary box
+    st.markdown('<div class="summary-box">', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Startup</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight: 500;">{plan["startup_name"]}</p>', unsafe_allow_html=True)
+        
+        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Funding Status</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["funding_status"]}</p>', unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Launch Type</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["launch_type"]}</p>', unsafe_allow_html=True)
+        
+        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Primary Goal</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["primary_goal"]}</p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Add user responses summary using the new function
+    display_user_responses_summary(form_data)
+    
+    # Messaging advice
+    st.markdown(f"**{plan['messaging_advice']}**")
+    
+    # Display recommended strategies
+    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.5rem;">Recommended Strategies:</h3>', unsafe_allow_html=True)
+    for i, strategy in enumerate(plan['recommended_strategies']):
+        st.markdown(
+            f'<div class="strategy-item">'
+            f'<div class="strategy-number">{i+1}</div>'
+            f'<span>{strategy}</span>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Display next steps
+    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.5rem; margin-top: 1.5rem;">Next Steps:</h3>', unsafe_allow_html=True)
+    for i, step in enumerate(plan['next_steps']):
+        st.markdown(
+            f'<div class="strategy-item">'
+            f'<div class="next-step-number">{i+1}</div>'
+            f'<span>{step}</span>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Display pricing options
+    st.markdown('<div style="border-top: 1px solid #E5E7EB; margin-top: 1.5rem; padding-top: 1rem;">', unsafe_allow_html=True)
+    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.75rem;">Ready to execute?</h3>', unsafe_allow_html=True)
+    
+    pricing_section()
+    
+    # Email and reset buttons
+    st.markdown('<div class="action-buttons">', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([4, 1])
+    
+    with col1:
+        if st.button("📧 " + ("Email Sent!" if st.session_state.email_sent else "Send to My Email")):
+            with st.spinner("Sending email..."):
+                success = send_email_to_user(st.session_state.form_data['email'], plan)
+                if success:
+                    st.success(f"Your personalized launch plan has been sent to {st.session_state.form_data['email']}!")
+                    st.session_state.email_sent = True
+                    st.experimental_rerun()
+                else:
+                    st.error("There was an error sending your email. Please try again.")
+    
+    with col2:
+        if st.button("Reset"):
+            reset_form()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Close result-card div
+
 
 # App run entry point
 if __name__ == "__main__":

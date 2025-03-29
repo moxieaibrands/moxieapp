@@ -2,33 +2,57 @@ import streamlit as st
 
 def option_selector(options, key_prefix, selected_option=None, with_info=False):
     """
-    Create a custom radio-button like selector with better styling
-    """
-    new_selected = selected_option
+    Create a custom radio-button like selector that strictly prevents multi-selection
     
+    Args:
+        options (list): List of option labels
+        key_prefix (str): Prefix for the key to make it unique
+        selected_option (str, optional): Currently selected option
+        with_info (bool): Whether this option will show an info box
+    
+    Returns:
+        str: The selected option
+    """
+    # Use a pure radio button instead of checkboxes to prevent multi-selection
+    index = 0
+    if selected_option in options:
+        index = options.index(selected_option)
+    
+    # Store the options in radio format to prevent multi-selection
+    option_radio_key = f"{key_prefix}_radio"
+    
+    # Force a single selection with radio buttons (hidden)
+    selected = st.radio(
+        label="",
+        options=options,
+        index=index,
+        label_visibility="collapsed",
+        key=option_radio_key,
+        horizontal=False
+    )
+    
+    # Display custom styled options
     for i, option in enumerate(options):
-        selected = selected_option == option
+        is_selected = selected == option
         st.markdown(
-            f'<div class="radio-option {"selected" if selected else ""}" id="{key_prefix}-option-{i}">',
+            f'<div class="radio-option {"selected" if is_selected else ""}" id="{key_prefix}-option-{i}">',
             unsafe_allow_html=True
         )
-        # Use a more direct way to create the checkbox and label
-        col1, col2 = st.columns([1, 20])
-        with col1:
-            checked = st.checkbox("", value=selected, key=f"{key_prefix}_{i}")
-        with col2:
-            st.markdown(f"<span style='color: white;'>{option}</span>", unsafe_allow_html=True)
-            
-        if checked:
-            new_selected = option
-            
+        # Use a normal checkbox as just a display component - selection is controlled by the hidden radio
+        st.checkbox(
+            option, 
+            value=is_selected, 
+            key=f"{key_prefix}_checkbox_{i}", 
+            label_visibility="visible",
+            disabled=True  # Make it non-interactive since selection is controlled by radio
+        )
         st.markdown('</div>', unsafe_allow_html=True)
     
     # Show info box if option is selected and with_info is True
-    if with_info and new_selected:
-        display_info_for_option(new_selected)
+    if with_info and selected:
+        display_info_for_option(selected)
     
-    return new_selected
+    return selected
 
 def display_info_for_option(option):
     """Display contextual information based on the selected option"""
@@ -129,7 +153,7 @@ def display_info_for_option(option):
 
 def step_navigation(back=True, next_label="Next →", next_disabled=True, on_next=None):
     """
-    Create consistent navigation buttons
+    Create consistent navigation buttons with Back under Next
     
     Args:
         back (bool): Whether to show back button
@@ -137,28 +161,19 @@ def step_navigation(back=True, next_label="Next →", next_disabled=True, on_nex
         next_disabled (bool): Whether next button should be disabled
         on_next (function, optional): Function to call on next
     """
+    # Create Next button - full width
+    if st.button(next_label, disabled=next_disabled, key="next_button", use_container_width=True):
+        if on_next:
+            on_next()
+        else:
+            st.session_state.step += 1
+            st.experimental_rerun()
+    
+    # Create Back button below (if needed) - full width
     if back:
-        col1, col2 = st.columns([1, 4])
-        
-        with col1:
-            if st.button("← Back"):
-                st.session_state.step -= 1
-                st.experimental_rerun()
-        
-        with col2:
-            if st.button(next_label, disabled=next_disabled):
-                if on_next:
-                    on_next()
-                else:
-                    st.session_state.step += 1
-                    st.experimental_rerun()
-    else:
-        if st.button(next_label, disabled=next_disabled):
-            if on_next:
-                on_next()
-            else:
-                st.session_state.step += 1
-                st.experimental_rerun()
+        if st.button("← Back", key="back_button", use_container_width=True):
+            st.session_state.step -= 1
+            st.experimental_rerun()
 
 def step_card(title, content_func):
     """
@@ -218,6 +233,31 @@ def info_box(text):
     st.markdown(text)
     st.markdown('</div>', unsafe_allow_html=True)
 
-
-
+def display_user_responses_summary(form_data):
+    """
+    Display a summary of all user responses
     
+    Args:
+        form_data (dict): User's form data containing all responses
+    """
+    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.5rem; margin-top: 1.5rem;">Your Responses</h3>', unsafe_allow_html=True)
+    
+    # Create an expandable section with all responses
+    with st.expander("View all your responses", expanded=False):
+        st.markdown("### Messaging Validation")
+        st.markdown(f"**Your response:** {form_data['messaging_tested']}")
+        
+        st.markdown("### Launch Type")
+        st.markdown(f"**Your response:** {form_data['launch_type']}")
+        
+        st.markdown("### Funding Status")
+        st.markdown(f"**Your response:** {form_data['funding_status']}")
+        
+        st.markdown("### Primary Goal")
+        st.markdown(f"**Your response:** {form_data['primary_goal']}")
+        
+        st.markdown("### Audience Readiness")
+        st.markdown(f"**Your response:** {form_data['audience_readiness']}")
+        
+        st.markdown("### Post-Launch Priority")
+        st.markdown(f"**Your response:** {form_data['post_launch_priority']}")
