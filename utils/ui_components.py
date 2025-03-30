@@ -2,7 +2,7 @@ import streamlit as st
 
 def option_selector(options, key_prefix, selected_option=None, with_info=False):
     """
-    Create a custom radio-button like selector that strictly prevents multi-selection
+    Create a custom radio-button like selector using native radio buttons
     
     Args:
         options (list): List of option labels
@@ -13,40 +13,19 @@ def option_selector(options, key_prefix, selected_option=None, with_info=False):
     Returns:
         str: The selected option
     """
-    # Use a pure radio button instead of checkboxes to prevent multi-selection
+    # Find index of selected option
     index = 0
     if selected_option in options:
         index = options.index(selected_option)
     
-    # Store the options in radio format to prevent multi-selection
-    option_radio_key = f"{key_prefix}_radio"
-    
-    # Force a single selection with radio buttons (hidden)
+    # Use native radio buttons with visible labels
     selected = st.radio(
-        label="",
-        options=options,
+        "",  # Empty label
+        options,
         index=index,
-        label_visibility="collapsed",
-        key=option_radio_key,
-        horizontal=False
+        key=f"{key_prefix}_radio",
+        label_visibility="collapsed"  # Hide the main label
     )
-    
-    # Display custom styled options
-    for i, option in enumerate(options):
-        is_selected = selected == option
-        st.markdown(
-            f'<div class="radio-option {"selected" if is_selected else ""}" id="{key_prefix}-option-{i}">',
-            unsafe_allow_html=True
-        )
-        # Use a normal checkbox as just a display component - selection is controlled by the hidden radio
-        st.checkbox(
-            option, 
-            value=is_selected, 
-            key=f"{key_prefix}_checkbox_{i}", 
-            label_visibility="visible",
-            disabled=True  # Make it non-interactive since selection is controlled by radio
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
     
     # Show info box if option is selected and with_info is True
     if with_info and selected:
