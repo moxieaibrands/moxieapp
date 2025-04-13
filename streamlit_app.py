@@ -6,6 +6,11 @@ import base64
 from datetime import datetime
 from utils.email_sender import send_email_to_user
 from utils.plan_generator import generate_launch_plan
+from utils.calendar_integration import (
+    milestone_calendar_ui, generate_google_calendar_link, 
+    get_user_milestones
+)
+from utils.competitive_analysis import display_competitive_analysis
 from utils.ui_components import (
     option_selector, step_navigation, step_card, 
     pricing_section, info_box, display_user_responses_summary
@@ -78,28 +83,6 @@ st.markdown("""
         transition: all 0.2s;
     }
             
-
-
-
-
-   
-            
-            
-            
-    
-
-    
-
-
-
-
-
-
-
-
-
-            
-    
     .radio-option:hover {
         border-color: #FF5A5F;
         background-color: #FFF7ED;
@@ -253,6 +236,172 @@ st.markdown("""
         background-color: #FF5A5F;
     }
     
+    /* Calendar styling */
+    .milestone-card {
+        background-color: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .milestone-date {
+        font-size: 0.8rem;
+        color: #6B7280;
+    }
+    
+    .milestone-title {
+        font-weight: 600;
+        margin: 0.25rem 0;
+    }
+    
+    .milestone-description {
+        font-size: 0.9rem;
+        color: #4B5563;
+    }
+    
+    .milestone-badge {
+        display: inline-block;
+        background-color: #DBEAFE;
+        color: #1E40AF;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        margin-top: 0.25rem;
+    }
+    
+    /* Timeline styling */
+    .timeline-container {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        overflow: visible;
+    }
+    
+    .timeline-line {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        height: 2px;
+        background-color: #6B7280;
+    }
+    
+    .timeline-marker {
+        position: absolute;
+        top: 46px;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    .timeline-label-top {
+        position: absolute;
+        top: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        white-space: nowrap;
+    }
+    
+    .timeline-label-bottom {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        white-space: nowrap;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Competitive analysis styling */
+    .company-card {
+        background-color: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .company-card:hover {
+        border-color: #FF5A5F;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .company-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    .company-launch-year {
+        font-size: 0.9rem;
+        color: #6B7280;
+    }
+    
+    .company-approach {
+        font-weight: 500;
+        margin: 0.5rem 0;
+    }
+    
+    .company-funding {
+        font-size: 0.9rem;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    
+    .strategy-list {
+        margin: 0.5rem 0;
+    }
+    
+    .notable-tactic {
+        background-color: #FFF7ED;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-style: italic;
+        margin: 0.5rem 0;
+    }
+    
+    .insight-box {
+        background-color: #F0FDF4;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        margin: 0.5rem 0;
+    }
+    
+    .takeaway-card {
+        background-color: #F9FAFB;
+        border-left: 4px solid #FF5A5F;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0.25rem;
+    }
+    
+    .takeaway-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Export button styling */
+    .export-button {
+        display: inline-block;
+        background-color: #FF5A5F;
+        color: white !important;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        text-align: center;
+        width: 100%;
+    }
+    
     /* Remove default Streamlit styling */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -297,6 +446,7 @@ if 'form_data' not in st.session_state:
         'primary_goal': None,
         'audience_readiness': None,
         'post_launch_priority': None,
+        'industry': None,
         'email': ''
     }
 
@@ -306,10 +456,12 @@ if 'generated_plan' not in st.session_state:
 if 'email_sent' not in st.session_state:
     st.session_state.email_sent = False
 
+if 'show_calendar' not in st.session_state:
+    st.session_state.show_calendar = False
+
 # Main app UI
 def main():
     # Try to load logo from assets directory
-    # In your main() function, replace the current logo loading code with this:
     try:
         logo_path = "assets/logo.png"
         if os.path.exists(logo_path):
@@ -323,7 +475,6 @@ def main():
                 unsafe_allow_html=True
             )
     except Exception as e:
-        st.error(f"Error loading logo: {e}")
         pass
     
     # Header
@@ -331,14 +482,17 @@ def main():
     st.markdown('<div class="subtitle">Created for founders who refuse to be ignored. Get your personalized launch plan in 3 minutes.</div>', unsafe_allow_html=True)
     
     # Progress bar (only show if not on results page)
-    if st.session_state.generated_plan is None and 1 <= st.session_state.step <= 7:
-        progress = (st.session_state.step - 1) / 6  # 6 steps total, not counting final step
+    if st.session_state.generated_plan is None and 1 <= st.session_state.step <= 9:  # Now 9 steps including industry
+        progress = (st.session_state.step - 1) / 8  # 8 steps total, not counting final step
         st.progress(progress)
-        st.markdown(f"**Step {st.session_state.step}/7**")
+        st.markdown(f"**Step {st.session_state.step}/9**")
     
     # Multi-step form
     if st.session_state.generated_plan is not None:
-        display_results()
+        if st.session_state.show_calendar:
+            display_calendar()
+        else:
+            display_results()
     elif st.session_state.step == 1:
         step_1()
     elif st.session_state.step == 2:
@@ -353,6 +507,10 @@ def main():
         step_6()
     elif st.session_state.step == 7:
         step_7()
+    elif st.session_state.step == 8:
+        step_8()
+    elif st.session_state.step == 9:
+        step_9()
 
 def step_1():
     """Collect basic information"""
@@ -511,7 +669,7 @@ def step_6():
     step_card("Step 6: Audience Readiness", content)
 
 def step_7():
-    """Ask about post-launch priority and generate plan"""
+    """Ask about post-launch priority"""
     def content():
         info_box(
             'Most founders think the launch is the moment. '
@@ -533,9 +691,77 @@ def step_7():
             with_info=True
         )
         
-        def on_generate_plan():
+        def on_next():
             st.session_state.form_data['post_launch_priority'] = selected
+            st.session_state.step += 1
+            st.experimental_rerun()
             
+        step_navigation(next_disabled=not selected, on_next=on_next)
+    
+    step_card("Step 7: Post-Launch Priority", content)
+
+def step_8():
+    """Ask about industry for competitive analysis"""
+    def content():
+        from utils.competitive_analysis import get_industries
+        
+        info_box(
+            'Understanding how similar companies launched can provide valuable insights. '
+            'Select your industry to see examples of successful launches from companies like yours.'
+        )
+        
+        # Get available industries
+        industries = get_industries()
+        
+        # Create options with emojis
+        industry_emojis = {
+            "SaaS": "💻",
+            "D2C / E-commerce": "🛒",
+            "Fintech": "💰",
+            "Healthcare": "🏥",
+            "Enterprise Software": "🏢",
+            "AI/ML": "🤖",
+            "Productivity Tools": "⚡"
+        }
+        
+        options = []
+        for industry in industries:
+            emoji = industry_emojis.get(industry, "🔍")
+            options.append(f"{emoji} {industry}")
+        
+        selected = option_selector(options, "industry", st.session_state.form_data['industry'])
+        
+        def on_next():
+            # Extract industry name without emoji
+            if selected:
+                industry = selected.split(" ", 1)[1] if " " in selected else selected
+                st.session_state.form_data['industry'] = industry
+            else:
+                st.session_state.form_data['industry'] = None
+                
+            st.session_state.step += 1
+            st.experimental_rerun()
+            
+        step_navigation(next_disabled=not selected, on_next=on_next)
+    
+    step_card("Step 8: Your Industry", content)
+
+def step_9():
+    """Generate plan and schedule milestones"""
+    def content():
+        info_box(
+            'A successful launch requires careful planning and scheduling. '
+            'Would you like us to create a suggested launch timeline with key milestones for your calendar?'
+        )
+        
+        options = [
+            "✅ Yes, help me plan my launch timeline",
+            "⏭️ Skip calendar scheduling for now"
+        ]
+        
+        selected = option_selector(options, "calendar", None)
+        
+        def on_generate_plan():
             # Generate plan
             with st.spinner("Creating your personalized launch plan..."):
                 external_strategies = load_strategies()
@@ -543,6 +769,13 @@ def step_7():
                     st.session_state.form_data, 
                     external_strategies
                 )
+                
+                # Set calendar preference
+                if selected == "✅ Yes, help me plan my launch timeline":
+                    st.session_state.show_calendar = True
+                else:
+                    st.session_state.show_calendar = False
+                    
             st.experimental_rerun()
             
         step_navigation(
@@ -551,10 +784,10 @@ def step_7():
             on_next=on_generate_plan
         )
     
-    step_card("Step 7: Post-Launch Priority", content)
+    step_card("Step 9: Launch Timeline", content)
 
-def display_results():
-    """Display generated plan and offer email sending"""
+def display_calendar():
+    """Display calendar scheduling interface"""
     plan = st.session_state.generated_plan
     
     if not plan:
@@ -565,104 +798,31 @@ def display_results():
     
     st.markdown('<div class="result-card">', unsafe_allow_html=True)
     st.markdown('<div class="result-header">', unsafe_allow_html=True)
-    st.markdown('<h2>Your High-Impact Launch Plan</h2>', unsafe_allow_html=True)
-    st.markdown('<div class="ready-badge">Ready</div>', unsafe_allow_html=True)
+    st.markdown('<h2>Schedule Your Launch Milestones</h2>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Display summary box
+    # Display summary of the plan
     st.markdown('<div class="summary-box">', unsafe_allow_html=True)
-    col1, col2 = st.columns(2)
+    st.markdown(f"<p><strong>{plan['startup_name']}</strong> - {plan['launch_summary']['launch_type']} ({plan['launch_summary']['funding_status']})</p>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Calendar UI
+    milestone_calendar_ui(st.session_state.form_data['email'], plan)
+    
+    # Navigation buttons
+    col1, col2 = st.columns([1, 1])
     
     with col1:
-        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Startup</p>', unsafe_allow_html=True)
-        st.markdown(f'<p style="font-weight: 500;">{plan["startup_name"]}</p>', unsafe_allow_html=True)
-        
-        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Funding Status</p>', unsafe_allow_html=True)
-        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["funding_status"]}</p>', unsafe_allow_html=True)
+        if st.button("← Back to Launch Plan", use_container_width=True):
+            st.session_state.show_calendar = False
+            st.experimental_rerun()
     
     with col2:
-        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Launch Type</p>', unsafe_allow_html=True)
-        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["launch_type"]}</p>', unsafe_allow_html=True)
-        
-        st.markdown('<p style="color: #6B7280; font-size: 0.875rem;">Primary Goal</p>', unsafe_allow_html=True)
-        st.markdown(f'<p style="font-weight: 500;">{plan["launch_summary"]["primary_goal"]}</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Messaging advice
-    st.markdown(f"**{plan['messaging_advice']}**")
-    
-    # Display recommended strategies
-    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.5rem;">Recommended Strategies:</h3>', unsafe_allow_html=True)
-    for i, strategy in enumerate(plan['recommended_strategies']):
-        st.markdown(
-            f'<div class="strategy-item">'
-            f'<div class="strategy-number">{i+1}</div>'
-            f'<span>{strategy}</span>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    # Display next steps
-    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.5rem; margin-top: 1.5rem;">Next Steps:</h3>', unsafe_allow_html=True)
-    for i, step in enumerate(plan['next_steps']):
-        st.markdown(
-            f'<div class="strategy-item">'
-            f'<div class="next-step-number">{i+1}</div>'
-            f'<span>{step}</span>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    # Display pricing options
-    st.markdown('<div style="border-top: 1px solid #E5E7EB; margin-top: 1.5rem; padding-top: 1rem;">', unsafe_allow_html=True)
-    st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.75rem;">Ready to execute?</h3>', unsafe_allow_html=True)
-    
-    pricing_section()
-    
-    # Email and reset buttons
-    st.markdown('<div class="action-buttons">', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns([4, 1])
-    
-    with col1:
-        if st.button("📧 " + ("Email Sent!" if st.session_state.email_sent else "Send to My Email")):
-            with st.spinner("Sending email..."):
-                success = send_email_to_user(st.session_state.form_data['email'], plan)
-                if success:
-                    st.success(f"Your personalized launch plan has been sent to {st.session_state.form_data['email']}!")
-                    st.session_state.email_sent = True
-                    st.experimental_rerun()
-                else:
-                    st.error("There was an error sending your email. Please try again.")
-    
-    with col2:
-        if st.button("Reset"):
-            reset_form()
+        if st.button("Continue", use_container_width=True):
+            st.session_state.show_calendar = False
+            st.experimental_rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # Close result-card div
-
-def reset_form():
-    """Reset the form to start over"""
-    st.session_state.form_data = {
-        'first_name': '',
-        'startup_name': '',
-        'messaging_tested': None,
-        'launch_type': None,
-        'funding_status': None,
-        'primary_goal': None,
-        'audience_readiness': None,
-        'post_launch_priority': None,
-        'email': ''
-    }
-    st.session_state.generated_plan = None
-    st.session_state.email_sent = False
-    st.session_state.step = 1
-    st.experimental_rerun()
-
-
 
 def display_results():
     """Display generated plan and offer email sending"""
@@ -728,6 +888,22 @@ def display_results():
             unsafe_allow_html=True
         )
     
+    # Add competitive analysis section
+    st.markdown('<div style="margin: 2rem 0; padding-top: 1rem; border-top: 1px solid #E5E7EB;">', unsafe_allow_html=True)
+    display_competitive_analysis(
+        launch_type=plan['launch_summary']['launch_type'],
+        funding_status=plan['launch_summary']['funding_status'],
+        selected_industry=form_data['industry']
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Launch Timeline button
+    st.markdown('<div style="margin: 1.5rem 0;">', unsafe_allow_html=True)
+    if st.button("📅 View & Edit Launch Timeline", use_container_width=True):
+        st.session_state.show_calendar = True
+        st.experimental_rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+    
     # Display pricing options
     st.markdown('<div style="border-top: 1px solid #E5E7EB; margin-top: 1.5rem; padding-top: 1rem;">', unsafe_allow_html=True)
     st.markdown('<h3 style="font-weight: 600; margin-bottom: 0.75rem;">Ready to execute?</h3>', unsafe_allow_html=True)
@@ -759,9 +935,26 @@ def display_results():
     
     st.markdown('</div>', unsafe_allow_html=True)  # Close result-card div
 
+def reset_form():
+    """Reset the form to start over"""
+    st.session_state.form_data = {
+        'first_name': '',
+        'startup_name': '',
+        'messaging_tested': None,
+        'launch_type': None,
+        'funding_status': None,
+        'primary_goal': None,
+        'audience_readiness': None,
+        'post_launch_priority': None,
+        'industry': None,
+        'email': ''
+    }
+    st.session_state.generated_plan = None
+    st.session_state.email_sent = False
+    st.session_state.show_calendar = False
+    st.session_state.step = 1
+    st.experimental_rerun()
 
 # App run entry point
 if __name__ == "__main__":
     main()
-
-    

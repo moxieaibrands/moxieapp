@@ -43,6 +43,12 @@ def generate_launch_plan(form_data, external_strategies=None):
     # Try to get AI-enhanced next steps, with fallback to standard ones
     next_steps = generate_ai_next_steps(form_data, fallback_steps=standard_next_steps)
     
+    # Generate milestone suggestions
+    milestone_suggestions = generate_milestone_suggestions(
+        form_data['launch_type'],
+        form_data['funding_status']
+    )
+    
     # Format the complete launch plan
     plan = {
         'first_name': form_data['first_name'],
@@ -54,10 +60,149 @@ def generate_launch_plan(form_data, external_strategies=None):
             'primary_goal': form_data['primary_goal']
         },
         'recommended_strategies': recommended_strategies,
-        'next_steps': next_steps
+        'next_steps': next_steps,
+        'milestone_suggestions': milestone_suggestions
     }
     
     return plan
+
+def generate_milestone_suggestions(launch_type, funding_status):
+    """
+    Generate milestone suggestions based on launch type and funding status
+    
+    Args:
+        launch_type (str): The type of launch
+        funding_status (str): The funding status
+        
+    Returns:
+        list: List of milestone suggestions
+    """
+    # Basic milestones that apply to all launches
+    basic_milestones = [
+        {
+            "name": "Messaging Validation", 
+            "description": "Complete customer interviews and finalize messaging",
+            "timeframe": "4 weeks before launch"
+        },
+        {
+            "name": "Content Creation Deadline", 
+            "description": "Finalize all launch content and materials",
+            "timeframe": "2 weeks before launch"
+        },
+        {
+            "name": "Launch Day", 
+            "description": "Official launch date",
+            "timeframe": "Launch day"
+        },
+        {
+            "name": "Post-Launch Analysis", 
+            "description": "Analyze launch metrics and gather feedback",
+            "timeframe": "1 week after launch"
+        }
+    ]
+    
+    # Launch type specific milestones
+    type_specific_milestones = []
+    if "New Startup/Product Launch" in launch_type:
+        type_specific_milestones = [
+            {
+                "name": "Beta Testing", 
+                "description": "Complete beta testing with early users",
+                "timeframe": "3 weeks before launch"
+            },
+            {
+                "name": "Product Finalization", 
+                "description": "Freeze features and finalize product",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    elif "Brand Repositioning" in launch_type:
+        type_specific_milestones = [
+            {
+                "name": "Brand Assets Complete", 
+                "description": "Finalize all new brand assets and guidelines",
+                "timeframe": "3 weeks before launch"
+            },
+            {
+                "name": "Team Alignment", 
+                "description": "Ensure team is aligned on new positioning",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    elif "Funding Announcement" in launch_type:
+        type_specific_milestones = [
+            {
+                "name": "Press Release Draft", 
+                "description": "Create first draft of funding press release",
+                "timeframe": "3 weeks before launch"
+            },
+            {
+                "name": "Investor Coordination", 
+                "description": "Finalize coordination with investors on announcement",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    elif "Partnership" in launch_type:
+        type_specific_milestones = [
+            {
+                "name": "Partnership Agreement", 
+                "description": "Finalize all partnership terms and agreements",
+                "timeframe": "3 weeks before launch"
+            },
+            {
+                "name": "Joint Marketing Plan", 
+                "description": "Finalize joint marketing plan with partner",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    
+    # Funding status specific milestones
+    funding_specific_milestones = []
+    if "Bootstrapping" in funding_status:
+        funding_specific_milestones = [
+            {
+                "name": "Resource Allocation", 
+                "description": "Finalize budget and resource allocation for launch",
+                "timeframe": "3 weeks before launch"
+            }
+        ]
+    elif "under $1M" in funding_status:
+        funding_specific_milestones = [
+            {
+                "name": "Growth Metrics Setup", 
+                "description": "Set up tracking for key growth metrics",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    elif "$1M-$3M" in funding_status:
+        funding_specific_milestones = [
+            {
+                "name": "PR Firm Briefing", 
+                "description": "Brief PR firm on launch strategy and timeline",
+                "timeframe": "4 weeks before launch"
+            },
+            {
+                "name": "Media Outreach", 
+                "description": "Begin outreach to media contacts",
+                "timeframe": "2 weeks before launch"
+            }
+        ]
+    elif "$3M+" in funding_status:
+        funding_specific_milestones = [
+            {
+                "name": "Marketing Campaign Launch", 
+                "description": "Launch pre-launch marketing campaign",
+                "timeframe": "4 weeks before launch"
+            },
+            {
+                "name": "Industry Event Planning", 
+                "description": "Finalize plans for launch event",
+                "timeframe": "3 weeks before launch"
+            }
+        ]
+    
+    # Combine and return all milestone suggestions
+    return basic_milestones + type_specific_milestones + funding_specific_milestones
 
 def get_standard_strategies(launch_type, funding_status, primary_goal, external_strategies=None):
     """
