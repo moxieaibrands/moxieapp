@@ -43,11 +43,27 @@ def parse_ai_response(ai_text):
         strategies_text = strategies_match.group(1).strip()
         # Split by numbered items (1., 2., 3., etc.)
         strategies = re.findall(r'\d+\.\s+(.*?)(?=\d+\.|$)', strategies_text + "999.", re.DOTALL)
-        result['recommended_strategies'] = [s.strip() for s in strategies if s.strip()]
+        
+        # Clean up strategies - remove markdown formatting
+        clean_strategies = []
+        for s in strategies:
+            # Remove **text** markdown formatting
+            cleaned = re.sub(r'\*\*(.*?)\*\*', r'\1', s.strip())
+            clean_strategies.append(cleaned)
+            
+        result['recommended_strategies'] = clean_strategies
         
         # Also add structured format for consistency
-        result['strategies'] = [{"title": s.split('.')[0].strip() if '.' in s else s, 
-                               "description": s} for s in result['recommended_strategies']]
+        result['strategies'] = []
+        for strategy in clean_strategies:
+            title = strategy.split('.')[0].strip() if '.' in strategy else ""
+            if not title:
+                title = strategy[:50] + "..." if len(strategy) > 50 else strategy
+            
+            result['strategies'].append({
+                "title": title,
+                "description": strategy
+            })
     
     # Extract next steps
     next_steps_match = re.search(r"Next Steps:(.*?)$", ai_text, re.DOTALL)
@@ -56,9 +72,24 @@ def parse_ai_response(ai_text):
         # Split by numbered items (1., 2., 3., etc.)
         next_steps = re.findall(r'\d+\.\s+(.*?)(?=\d+\.|$)', next_steps_text + "999.", re.DOTALL)
         
+        # Clean up next steps - remove markdown formatting
+        clean_next_steps = []
+        for ns in next_steps:
+            # Remove **text** markdown formatting
+            cleaned = re.sub(r'\*\*(.*?)\*\*', r'\1', ns.strip())
+            clean_next_steps.append(cleaned)
+        
         # Also add structured format for consistency
-        result['next_steps'] = [{"title": s.split('.')[0].strip() if '.' in s else s, 
-                               "description": s} for s in [ns.strip() for ns in next_steps if ns.strip()]]
+        result['next_steps'] = []
+        for step in clean_next_steps:
+            title = step.split('.')[0].strip() if '.' in step else ""
+            if not title:
+                title = step[:50] + "..." if len(step) > 50 else step
+                
+            result['next_steps'].append({
+                "title": title,
+                "description": step
+            })
     
     return result
 
