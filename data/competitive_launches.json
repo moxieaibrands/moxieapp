@@ -1,354 +1,354 @@
 {
-    "industries": {
-      "SaaS": {
-        "examples": [
-          {
-            "company": "Slack",
-            "launch_year": 2013,
-            "funding_at_launch": "Raised $1.5M seed",
-            "approach": "Limited preview + Twitter-driven invitation system",
-            "key_strategies": [
-              "Created artificial scarcity with invite-only system",
-              "Focused heavily on team onboarding vs individual users",
-              "Leveraged existing communities (tech Twitter) for organic spread"
-            ],
-            "results": "8,000 companies signed up within 24 hours of public launch",
-            "notable_tactics": "Preview program gave early users a sense of exclusivity while gathering feedback for improvements",
-            "retrospective_insight": "Their key insight was focusing on small team adoption rather than enterprise sales, allowing for bottom-up growth"
-          },
-          {
-            "company": "Notion",
-            "launch_year": 2016,
-            "funding_at_launch": "Bootstrapped (declined $2M)",
-            "approach": "Soft launch after several pivots + word-of-mouth growth",
-            "key_strategies": [
-              "Focused on creator community (designers, founders) first",
-              "Built public roadmap with user input",
-              "Created educational content showcasing versatility"
-            ],
-            "results": "Reached profitability with no marketing team",
-            "notable_tactics": "Notion created templates and educational content showing its versatility, encouraging users to share their setups",
-            "retrospective_insight": "Their patient approach with multiple rebuilds paid off - they focused on product excellence before growth"
-          },
-          {
-            "company": "Superhuman",
-            "launch_year": 2017,
-            "funding_at_launch": "Raised $9M Series A",
-            "approach": "Invite-only + high-touch onboarding",
-            "key_strategies": [
-              "Personal 1:1 onboarding calls with every user",
-              "Created $30/month price point to ensure committed users",
-              "Built a highly-selective waitlist system"
-            ],
-            "results": "Achieved $33M ARR with high user retention",
-            "notable_tactics": "The founder personally onboarded the first 1,000 users, spending 30 minutes with each one",
-            "retrospective_insight": "They proved high-touch, premium approaches can work even for email (a seemingly commoditized space)"
-          }
-        ]
-      },
-      "D2C / E-commerce": {
-        "examples": [
-          {
-            "company": "AllBirds",
-            "launch_year": 2016,
-            "funding_at_launch": "Raised $2.7M seed",
-            "approach": "Singular hero product + sustainability story",
-            "key_strategies": [
-              "Focused on single hero product (Wool Runner)",
-              "Strong sustainability narrative in all marketing",
-              "Clean, distinctive branding across all touchpoints"
-            ],
-            "results": "$100M in revenue within 2 years",
-            "notable_tactics": "Created Time Magazine's 'Most Comfortable Shoe' positioning through strategic press placements",
-            "retrospective_insight": "Their focus on a single hero product created clear brand recognition before expanding product lines"
-          },
-          {
-            "company": "Glossier",
-            "launch_year": 2014,
-            "funding_at_launch": "Raised $2M seed",
-            "approach": "Blog-first (Into The Gloss) + community co-creation",
-            "key_strategies": [
-              "Leveraged existing blog audience for initial customers",
-              "Incorporated reader feedback into product development",
-              "User-generated content as primary marketing strategy"
-            ],
-            "results": "Reached $100M in revenue by 2018",
-            "notable_tactics": "Created 'Phase 1' set with only 4 essential products, making entry simple for new customers",
-            "retrospective_insight": "Building the audience before the product allowed for instant product-market fit and loyal customer base"
-          },
-          {
-            "company": "Away",
-            "launch_year": 2015,
-            "funding_at_launch": "Raised $2.5M seed",
-            "approach": "Lifestyle brand positioning + content marketing",
-            "key_strategies": [
-              "Created travel magazine (Here Magazine) to position as lifestyle brand",
-              "Used non-technical language to describe technical features",
-              "Strategic airport advertising in high-traffic locations"
-            ],
-            "results": "$125M in revenue within 3 years",
-            "notable_tactics": "Their 100-day free trial removed purchasing friction for a high-consideration item",
-            "retrospective_insight": "They identified that luggage marketing was overly technical and male-focused, creating opportunity for lifestyle positioning"
-          }
-        ]
-      },
-      "Fintech": {
-        "examples": [
-          {
-            "company": "Robinhood",
-            "launch_year": 2014,
-            "funding_at_launch": "Raised $13M Series A",
-            "approach": "Waitlist-driven growth + zero commission disruption",
-            "key_strategies": [
-              "Waitlist with position shown and referral-based advancement",
-              "Zero commission trading as core disruption",
-              "Mobile-first design unlike incumbents"
-            ],
-            "results": "1M+ waitlist signups before public launch",
-            "notable_tactics": "Their waitlist showed users their position and how many people were behind them, gamifying referrals",
-            "retrospective_insight": "Their timing aligned perfectly with mobile adoption and dissatisfaction with traditional brokerages' fee structures"
-          },
-          {
-            "company": "Stripe",
-            "launch_year": 2011,
-            "funding_at_launch": "Raised $2M seed",
-            "approach": "Developer-focused + API-first strategy",
-            "key_strategies": [
-              "Created super simple integration (7 lines of code)",
-              "Built for developers by developers",
-              "Used early adopters (YC companies) as reference customers"
-            ],
-            "results": "Reached $2B valuation within 5 years",
-            "notable_tactics": "Founders were active on Hacker News and developer forums personally helping with integration issues",
-            "retrospective_insight": "By making developers their champions, they created bottom-up adoption within organizations"
-          },
-          {
-            "company": "Chime",
-            "launch_year": 2014,
-            "funding_at_launch": "Raised $3.8M seed",
-            "approach": "Feature-driven acquisition + zero fee positioning",
-            "key_strategies": [
-              "Early direct deposit as key acquisition feature",
-              "No hidden fees as market disruption",
-              "Strategic partnerships with influencers in financial content"
-            ],
-            "results": "Reached 8M accounts within 6 years",
-            "notable_tactics": "Get paid early' feature became their most effective acquisition tool, solving a real pain point",
-            "retrospective_insight": "Their focus on underserved market segments (no minimum balance, credit-building features) created devoted customer base"
-          }
-        ]
-      },
-      "Healthcare": {
-        "examples": [
-          {
-            "company": "Oscar Health",
-            "launch_year": 2013,
-            "funding_at_launch": "Raised $40M Series A",
-            "approach": "Digital-first health insurance model + user experience focus",
-            "key_strategies": [
-              "Simplified insurance language and pricing",
-              "Mobile app for all health management",
-              "Geographic focus (NYC first) before expansion"
-            ],
-            "results": "Reached 200,000+ members within 5 years",
-            "notable_tactics": "Their clean design and simplified explanations stood in stark contrast to traditional health insurance",
-            "retrospective_insight": "Their focus on user experience in an industry with notoriously poor customer experience created differentiation"
-          },
-          {
-            "company": "Hims",
-            "launch_year": 2017,
-            "funding_at_launch": "Raised $7M seed",
-            "approach": "Destigmatization campaign + strong brand aesthetic",
-            "key_strategies": [
-              "Subway ads that normalized sensitive health topics",
-              "Instagram-worthy packaging and branding",
-              "Simplified pricing compared to traditional healthcare"
-            ],
-            "results": "$1B+ valuation within 2 years",
-            "notable_tactics": "Their subway campaign created massive awareness while breaking taboos around men's health issues",
-            "retrospective_insight": "By addressing stigmatized issues (hair loss, ED) with a modern brand approach, they opened a large underserved market"
-          },
-          {
-            "company": "Ro",
-            "launch_year": 2017,
-            "funding_at_launch": "Raised $3.1M seed",
-            "approach": "Vertical launch strategy (Roman for men first) + digital health platform",
-            "key_strategies": [
-              "Started with single vertical (men's health) before expanding",
-              "Telemedicine as core service differentiator",
-              "Subscription model for recurring revenue"
-            ],
-            "results": "Expanded to women's and general health within 3 years",
-            "notable_tactics": "Their end-to-end solution (consultation, prescription, delivery) removed traditional healthcare friction",
-            "retrospective_insight": "Their vertical-by-vertical approach allowed for focused marketing and gradual platform expansion"
-          }
-        ]
-      },
-      "Enterprise Software": {
-        "examples": [
-          {
-            "company": "Zoom",
-            "launch_year": 2013,
-            "funding_at_launch": "Raised $3M seed",
-            "approach": "Freemium model + ease-of-use focus",
-            "key_strategies": [
-              "Extreme focus on reliability and ease of use",
-              "Freemium model with generous limits",
-              "Compatibility across all platforms from day one"
-            ],
-            "results": "1M+ users within 5 months of launch",
-            "notable_tactics": "Their 40-minute limit on free calls was strategic - just long enough for most meetings, creating urgency to upgrade",
-            "retrospective_insight": "By solving video reliability issues that plagued competitors, they created a product that marketed itself through quality"
-          },
-          {
-            "company": "Figma",
-            "launch_year": 2016,
-            "funding_at_launch": "Raised $14M Series A",
-            "approach": "Browser-based innovation + collaborative focus",
-            "key_strategies": [
-              "Browser-first approach unlike desktop competitors",
-              "Collaboration as core feature, not add-on",
-              "Education market as testing ground"
-            ],
-            "results": "Reached 4M users by 2020",
-            "notable_tactics": "Their free education plan created a generation of designers who learned on their platform",
-            "retrospective_insight": "Their patience in development (3+ years) allowed them to solve the technical challenges of browser-based design"
-          },
-          {
-            "company": "Airtable",
-            "launch_year": 2015,
-            "funding_at_launch": "Raised $3M seed",
-            "approach": "Template marketplace + use-case education",
-            "key_strategies": [
-              "Template gallery showcasing versatility",
-              "Use-case specific marketing campaigns",
-              "Product-led growth with free tier"
-            ],
-            "results": "Reached $1.1B valuation within 5 years",
-            "notable_tactics": "Their universe of templates showed potential users exactly how to use the product for their specific needs",
-            "retrospective_insight": "By reimagining spreadsheets for non-technical users, they expanded the market beyond traditional database users"
-          }
-        ]
-      },
-      "AI/ML": {
-        "examples": [
-          {
-            "company": "OpenAI (ChatGPT)",
-            "launch_year": 2022,
-            "funding_at_launch": "Backed by $1B+ funding",
-            "approach": "Free research preview + viral growth",
-            "key_strategies": [
-              "Free access to cutting-edge AI capabilities",
-              "Conversational interface requiring zero training",
-              "Allowed users to explore capabilities organically"
-            ],
-            "results": "100M users within 2 months of launch",
-            "notable_tactics": "The 'research preview' positioning lowered expectations while sparking curiosity",
-            "retrospective_insight": "By launching without restrictions or complex signup, they created the fastest-growing consumer application in history"
-          },
-          {
-            "company": "Midjourney",
-            "launch_year": 2022,
-            "funding_at_launch": "Bootstrapped by founder",
-            "approach": "Discord-based community + public creation",
-            "key_strategies": [
-              "Discord as primary platform created community",
-              "Public creation allowed users to see others' results",
-              "Tiered pricing with accessible entry point"
-            ],
-            "results": "Over 15M users within first year",
-            "notable_tactics": "The public Discord approach meant every creation served as marketing for the platform",
-            "retrospective_insight": "By making AI art creation social rather than private, they created a community-driven growth engine"
-          },
-          {
-            "company": "Jasper",
-            "launch_year": 2021,
-            "funding_at_launch": "Raised $6M seed",
-            "approach": "Specialized AI for marketers + templates",
-            "key_strategies": [
-              "Industry-specific focus (marketing content)",
-              "Template-driven interface for quick adoption",
-              "Educational content on AI content creation"
-            ],
-            "results": "Reached $125M ARR within 18 months",
-            "notable_tactics": "Their Facebook community became a powerful resource for users to share prompts and use cases",
-            "retrospective_insight": "By focusing on a specific vertical (marketing) rather than general AI, they created clear use cases and ROI"
-          }
-        ]
-      },
-      "Productivity Tools": {
-        "examples": [
-          {
-            "company": "Calendly",
-            "launch_year": 2013,
-            "funding_at_launch": "Bootstrapped initially",
-            "approach": "Freemium model + viral sharing mechanics",
-            "key_strategies": [
-              "Free tier with core functionality",
-              "Each booking exposed new users to the product",
-              "Solved clear pain point (scheduling emails)"
-            ],
-            "results": "Bootstrapped to $60M ARR",
-            "notable_tactics": "Their booking links inherently marketed the product to each person scheduling a meeting",
-            "retrospective_insight": "By focusing on a single pain point and solving it completely, they created a category-defining product"
-          },
-          {
-            "company": "Canva",
-            "launch_year": 2013,
-            "funding_at_launch": "Raised $3M seed",
-            "approach": "Democratization of design + template marketplace",
-            "key_strategies": [
-              "Drag-and-drop simplicity vs professional tools",
-              "Extensive template library for quick wins",
-              "Freemium model with paid elements"
-            ],
-            "results": "Reached 60M+ users across 190 countries",
-            "notable_tactics": "Their focus on non-designers opened up a massive market ignored by professional design tools",
-            "retrospective_insight": "By making design accessible to everyone, they expanded the market far beyond professional designers"
-          },
-          {
-            "company": "Loom",
-            "launch_year": 2016,
-            "funding_at_launch": "Raised $4M seed",
-            "approach": "Chrome extension + simple sharing",
-            "key_strategies": [
-              "One-click recording via browser extension",
-              "Instant shareable links",
-              "Freemium model with generous limits"
-            ],
-            "results": "Reached 14M+ users and $1.5B valuation",
-            "notable_tactics": "Every shared Loom video included a branded frame and CTA, driving viral adoption",
-            "retrospective_insight": "By making video communication asynchronous and simple, they created a new communication category"
-          }
-        ]
-      }
-    },
-    "launch_types": {
-      "New Startup/Product Launch": [
-        "Slack", "AllBirds", "Robinhood", "Oscar Health", "Zoom", "OpenAI (ChatGPT)", "Calendly"
-      ],
-      "Brand Repositioning (Rebrand or Pivot)": [
-        "Notion", "Zoom", "Figma"
-      ],
-      "Funding Announcement": [
-        "Stripe", "Superhuman", "Away", "Jasper"
-      ],
-      "Major Partnership or Publicity Push": [
-        "OpenAI (ChatGPT)", "Midjourney", "Chime"
+  "industries": {
+    "SaaS": {
+      "examples": [
+        {
+          "company": "Slack",
+          "launch_year": 2013,
+          "funding_at_launch": "Raised $1.5M seed",
+          "approach": "Limited preview + Twitter-driven invitation system",
+          "key_strategies": [
+            "Created artificial scarcity with invite-only system",
+            "Focused heavily on team onboarding vs individual users",
+            "Leveraged existing communities (tech Twitter) for organic spread"
+          ],
+          "results": "8,000 companies signed up within 24 hours of public launch",
+          "notable_tactics": "Preview program gave early users a sense of exclusivity while gathering feedback for improvements",
+          "retrospective_insight": "Their key insight was focusing on small team adoption rather than enterprise sales, allowing for bottom-up growth"
+        },
+        {
+          "company": "Notion",
+          "launch_year": 2016,
+          "funding_at_launch": "Bootstrapped (declined $2M)",
+          "approach": "Soft launch after several pivots + word-of-mouth growth",
+          "key_strategies": [
+            "Focused on creator community (designers, founders) first",
+            "Built public roadmap with user input",
+            "Created educational content showcasing versatility"
+          ],
+          "results": "Reached profitability with no marketing team",
+          "notable_tactics": "Notion created templates and educational content showing its versatility, encouraging users to share their setups",
+          "retrospective_insight": "Their patient approach with multiple rebuilds paid off - they focused on product excellence before growth"
+        },
+        {
+          "company": "Superhuman",
+          "launch_year": 2017,
+          "funding_at_launch": "Raised $9M Series A",
+          "approach": "Invite-only + high-touch onboarding",
+          "key_strategies": [
+            "Personal 1:1 onboarding calls with every user",
+            "Created $30/month price point to ensure committed users",
+            "Built a highly-selective waitlist system"
+          ],
+          "results": "Achieved $33M ARR with high user retention",
+          "notable_tactics": "The founder personally onboarded the first 1,000 users, spending 30 minutes with each one",
+          "retrospective_insight": "They proved high-touch, premium approaches can work even for email (a seemingly commoditized space)"
+        }
       ]
     },
-    "funding_levels": {
-      "Bootstrapping (No external funding)": [
-        "Notion", "Calendly", "Midjourney"
-      ],
-      "Raised under $1M": [
-        "Canva", "Loom"
-      ],
-      "Raised $1M-$3M": [
-        "Slack", "AllBirds", "Glossier", "Away", "Stripe", "Hims", "Ro", "Zoom", "Airtable"
-      ],
-      "Raised $3M+": [
-        "Superhuman", "Robinhood", "Chime", "Oscar Health", "Figma", "OpenAI (ChatGPT)", "Jasper"
+    "D2C / E-commerce": {
+      "examples": [
+        {
+          "company": "AllBirds",
+          "launch_year": 2016,
+          "funding_at_launch": "Raised $2.7M seed",
+          "approach": "Singular hero product + sustainability story",
+          "key_strategies": [
+            "Focused on single hero product (Wool Runner)",
+            "Strong sustainability narrative in all marketing",
+            "Clean, distinctive branding across all touchpoints"
+          ],
+          "results": "$100M in revenue within 2 years",
+          "notable_tactics": "Created Time Magazine's 'Most Comfortable Shoe' positioning through strategic press placements",
+          "retrospective_insight": "Their focus on a single hero product created clear brand recognition before expanding product lines"
+        },
+        {
+          "company": "Glossier",
+          "launch_year": 2014,
+          "funding_at_launch": "Raised $2M seed",
+          "approach": "Blog-first (Into The Gloss) + community co-creation",
+          "key_strategies": [
+            "Leveraged existing blog audience for initial customers",
+            "Incorporated reader feedback into product development",
+            "User-generated content as primary marketing strategy"
+          ],
+          "results": "Reached $100M in revenue by 2018",
+          "notable_tactics": "Created 'Phase 1' set with only 4 essential products, making entry simple for new customers",
+          "retrospective_insight": "Building the audience before the product allowed for instant product-market fit and loyal customer base"
+        },
+        {
+          "company": "Away",
+          "launch_year": 2015,
+          "funding_at_launch": "Raised $2.5M seed",
+          "approach": "Lifestyle brand positioning + content marketing",
+          "key_strategies": [
+            "Created travel magazine (Here Magazine) to position as lifestyle brand",
+            "Used non-technical language to describe technical features",
+            "Strategic airport advertising in high-traffic locations"
+          ],
+          "results": "$125M in revenue within 3 years",
+          "notable_tactics": "Their 100-day free trial removed purchasing friction for a high-consideration item",
+          "retrospective_insight": "They identified that luggage marketing was overly technical and male-focused, creating opportunity for lifestyle positioning"
+        }
+      ]
+    },
+    "Fintech": {
+      "examples": [
+        {
+          "company": "Robinhood",
+          "launch_year": 2014,
+          "funding_at_launch": "Raised $13M Series A",
+          "approach": "Waitlist-driven growth + zero commission disruption",
+          "key_strategies": [
+            "Waitlist with position shown and referral-based advancement",
+            "Zero commission trading as core disruption",
+            "Mobile-first design unlike incumbents"
+          ],
+          "results": "1M+ waitlist signups before public launch",
+          "notable_tactics": "Their waitlist showed users their position and how many people were behind them, gamifying referrals",
+          "retrospective_insight": "Their timing aligned perfectly with mobile adoption and dissatisfaction with traditional brokerages' fee structures"
+        },
+        {
+          "company": "Stripe",
+          "launch_year": 2011,
+          "funding_at_launch": "Raised $2M seed",
+          "approach": "Developer-focused + API-first strategy",
+          "key_strategies": [
+            "Created super simple integration (7 lines of code)",
+            "Built for developers by developers",
+            "Used early adopters (YC companies) as reference customers"
+          ],
+          "results": "Reached $2B valuation within 5 years",
+          "notable_tactics": "Founders were active on Hacker News and developer forums personally helping with integration issues",
+          "retrospective_insight": "By making developers their champions, they created bottom-up adoption within organizations"
+        },
+        {
+          "company": "Chime",
+          "launch_year": 2014,
+          "funding_at_launch": "Raised $3.8M seed",
+          "approach": "Feature-driven acquisition + zero fee positioning",
+          "key_strategies": [
+            "Early direct deposit as key acquisition feature",
+            "No hidden fees as market disruption",
+            "Strategic partnerships with influencers in financial content"
+          ],
+          "results": "Reached 8M accounts within 6 years",
+          "notable_tactics": "Get paid early' feature became their most effective acquisition tool, solving a real pain point",
+          "retrospective_insight": "Their focus on underserved market segments (no minimum balance, credit-building features) created devoted customer base"
+        }
+      ]
+    },
+    "Healthcare": {
+      "examples": [
+        {
+          "company": "Oscar Health",
+          "launch_year": 2013,
+          "funding_at_launch": "Raised $40M Series A",
+          "approach": "Digital-first health insurance model + user experience focus",
+          "key_strategies": [
+            "Simplified insurance language and pricing",
+            "Mobile app for all health management",
+            "Geographic focus (NYC first) before expansion"
+          ],
+          "results": "Reached 200,000+ members within 5 years",
+          "notable_tactics": "Their clean design and simplified explanations stood in stark contrast to traditional health insurance",
+          "retrospective_insight": "Their focus on user experience in an industry with notoriously poor customer experience created differentiation"
+        },
+        {
+          "company": "Hims",
+          "launch_year": 2017,
+          "funding_at_launch": "Raised $7M seed",
+          "approach": "Destigmatization campaign + strong brand aesthetic",
+          "key_strategies": [
+            "Subway ads that normalized sensitive health topics",
+            "Instagram-worthy packaging and branding",
+            "Simplified pricing compared to traditional healthcare"
+          ],
+          "results": "$1B+ valuation within 2 years",
+          "notable_tactics": "Their subway campaign created massive awareness while breaking taboos around men's health issues",
+          "retrospective_insight": "By addressing stigmatized issues (hair loss, ED) with a modern brand approach, they opened a large underserved market"
+        },
+        {
+          "company": "Ro",
+          "launch_year": 2017,
+          "funding_at_launch": "Raised $3.1M seed",
+          "approach": "Vertical launch strategy (Roman for men first) + digital health platform",
+          "key_strategies": [
+            "Started with single vertical (men's health) before expanding",
+            "Telemedicine as core service differentiator",
+            "Subscription model for recurring revenue"
+          ],
+          "results": "Expanded to women's and general health within 3 years",
+          "notable_tactics": "Their end-to-end solution (consultation, prescription, delivery) removed traditional healthcare friction",
+          "retrospective_insight": "Their vertical-by-vertical approach allowed for focused marketing and gradual platform expansion"
+        }
+      ]
+    },
+    "Enterprise Software": {
+      "examples": [
+        {
+          "company": "Zoom",
+          "launch_year": 2013,
+          "funding_at_launch": "Raised $3M seed",
+          "approach": "Freemium model + ease-of-use focus",
+          "key_strategies": [
+            "Extreme focus on reliability and ease of use",
+            "Freemium model with generous limits",
+            "Compatibility across all platforms from day one"
+          ],
+          "results": "1M+ users within 5 months of launch",
+          "notable_tactics": "Their 40-minute limit on free calls was strategic - just long enough for most meetings, creating urgency to upgrade",
+          "retrospective_insight": "By solving video reliability issues that plagued competitors, they created a product that marketed itself through quality"
+        },
+        {
+          "company": "Figma",
+          "launch_year": 2016,
+          "funding_at_launch": "Raised $14M Series A",
+          "approach": "Browser-based innovation + collaborative focus",
+          "key_strategies": [
+            "Browser-first approach unlike desktop competitors",
+            "Collaboration as core feature, not add-on",
+            "Education market as testing ground"
+          ],
+          "results": "Reached 4M users by 2020",
+          "notable_tactics": "Their free education plan created a generation of designers who learned on their platform",
+          "retrospective_insight": "Their patience in development (3+ years) allowed them to solve the technical challenges of browser-based design"
+        },
+        {
+          "company": "Airtable",
+          "launch_year": 2015,
+          "funding_at_launch": "Raised $3M seed",
+          "approach": "Template marketplace + use-case education",
+          "key_strategies": [
+            "Template gallery showcasing versatility",
+            "Use-case specific marketing campaigns",
+            "Product-led growth with free tier"
+          ],
+          "results": "Reached $1.1B valuation within 5 years",
+          "notable_tactics": "Their universe of templates showed potential users exactly how to use the product for their specific needs",
+          "retrospective_insight": "By reimagining spreadsheets for non-technical users, they expanded the market beyond traditional database users"
+        }
+      ]
+    },
+    "AI/ML": {
+      "examples": [
+        {
+          "company": "OpenAI (ChatGPT)",
+          "launch_year": 2022,
+          "funding_at_launch": "Backed by $1B+ funding",
+          "approach": "Free research preview + viral growth",
+          "key_strategies": [
+            "Free access to cutting-edge AI capabilities",
+            "Conversational interface requiring zero training",
+            "Allowed users to explore capabilities organically"
+          ],
+          "results": "100M users within 2 months of launch",
+          "notable_tactics": "The 'research preview' positioning lowered expectations while sparking curiosity",
+          "retrospective_insight": "By launching without restrictions or complex signup, they created the fastest-growing consumer application in history"
+        },
+        {
+          "company": "Midjourney",
+          "launch_year": 2022,
+          "funding_at_launch": "Bootstrapped by founder",
+          "approach": "Discord-based community + public creation",
+          "key_strategies": [
+            "Discord as primary platform created community",
+            "Public creation allowed users to see others' results",
+            "Tiered pricing with accessible entry point"
+          ],
+          "results": "Over 15M users within first year",
+          "notable_tactics": "The public Discord approach meant every creation served as marketing for the platform",
+          "retrospective_insight": "By making AI art creation social rather than private, they created a community-driven growth engine"
+        },
+        {
+          "company": "Jasper",
+          "launch_year": 2021,
+          "funding_at_launch": "Raised $6M seed",
+          "approach": "Specialized AI for marketers + templates",
+          "key_strategies": [
+            "Industry-specific focus (marketing content)",
+            "Template-driven interface for quick adoption",
+            "Educational content on AI content creation"
+          ],
+          "results": "Reached $125M ARR within 18 months",
+          "notable_tactics": "Their Facebook community became a powerful resource for users to share prompts and use cases",
+          "retrospective_insight": "By focusing on a specific vertical (marketing) rather than general AI, they created clear use cases and ROI"
+        }
+      ]
+    },
+    "Service": {
+      "examples": [
+        {
+          "company": "Calendly",
+          "launch_year": 2013,
+          "funding_at_launch": "Bootstrapped initially",
+          "approach": "Freemium model + viral sharing mechanics",
+          "key_strategies": [
+            "Free tier with core functionality",
+            "Each booking exposed new users to the product",
+            "Solved clear pain point (scheduling emails)"
+          ],
+          "results": "Bootstrapped to $60M ARR",
+          "notable_tactics": "Their booking links inherently marketed the product to each person scheduling a meeting",
+          "retrospective_insight": "By focusing on a single pain point and solving it completely, they created a category-defining product"
+        },
+        {
+          "company": "Canva",
+          "launch_year": 2013,
+          "funding_at_launch": "Raised $3M seed",
+          "approach": "Democratization of design + template marketplace",
+          "key_strategies": [
+            "Drag-and-drop simplicity vs professional tools",
+            "Extensive template library for quick wins",
+            "Freemium model with paid elements"
+          ],
+          "results": "Reached 60M+ users across 190 countries",
+          "notable_tactics": "Their focus on non-designers opened up a massive market ignored by professional design tools",
+          "retrospective_insight": "By making design accessible to everyone, they expanded the market far beyond professional designers"
+        },
+        {
+          "company": "Loom",
+          "launch_year": 2016,
+          "funding_at_launch": "Raised $4M seed",
+          "approach": "Chrome extension + simple sharing",
+          "key_strategies": [
+            "One-click recording via browser extension",
+            "Instant shareable links",
+            "Freemium model with generous limits"
+          ],
+          "results": "Reached 14M+ users and $1.5B valuation",
+          "notable_tactics": "Every shared Loom video included a branded frame and CTA, driving viral adoption",
+          "retrospective_insight": "By making video communication asynchronous and simple, they created a new communication category"
+        }
       ]
     }
+  },
+  "launch_types": {
+    "New Startup/Product Launch": [
+      "Slack", "AllBirds", "Robinhood", "Oscar Health", "Zoom", "OpenAI (ChatGPT)", "Calendly"
+    ],
+    "Brand Repositioning (Rebrand or Pivot)": [
+      "Notion", "Zoom", "Figma"
+    ],
+    "Funding Announcement": [
+      "Stripe", "Superhuman", "Away", "Jasper"
+    ],
+    "Major Partnership or Publicity Push": [
+      "OpenAI (ChatGPT)", "Midjourney", "Chime"
+    ]
+  },
+  "funding_levels": {
+    "Bootstrapping (No external funding)": [
+      "Notion", "Calendly", "Midjourney"
+    ],
+    "Raised under $1M": [
+      "Canva", "Loom"
+    ],
+    "Raised $1M-$3M": [
+      "Slack", "AllBirds", "Glossier", "Away", "Stripe", "Hims", "Ro", "Zoom", "Airtable"
+    ],
+    "Raised $3M+": [
+      "Superhuman", "Robinhood", "Chime", "Oscar Health", "Figma", "OpenAI (ChatGPT)", "Jasper"
+    ]
   }
+}

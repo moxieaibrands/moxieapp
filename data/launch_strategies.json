@@ -1,0 +1,479 @@
+{
+  "launch_strategies": {
+    "New Startup/Product Launch": {
+      "Bootstrapping (No external funding)": {
+        "Get Users or Customers": [
+          "Focus on founder-led storytelling through guest podcasts and social content",
+          "Create a limited beta program with exclusive perks to drive early adoption",
+          "Build direct relationships with early users for feedback and testimonials"
+        ],
+        "Attract Investors": [
+          "Document your traction journey publicly to showcase momentum",
+          "Create case studies showing early customer impact",
+          "Target niche industry events where investors in your space gather"
+        ],
+        "Build Press & Awareness": [
+          "Craft a compelling founder story that ties to current trends",
+          "Pitch to industry-specific publications rather than mainstream media",
+          "Create shareable content that showcases your unique approach"
+        ],
+        "Create Industry Influence": [
+          "Start a focused content series solving key problems in your industry",
+          "Join relevant communities as a contributor, not just a promoter",
+          "Collaborate with complementary startups for wider reach"
+        ]
+      },
+      "We have a small following but need more traction": {
+        "Scaling & repeatable traction": [
+          "1. Identify your 2-3 most engaged audience segments",
+          "2. Create targeted content for each segment with clear calls-to-action",
+          "3. Implement a basic referral system to incentivize sharing"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Document early signs of traction even if metrics are small",
+          "2. Create case studies from your most successful early customers",
+          "3. Build relationships with 3-5 investors for future feedback"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Interview your most engaged users about their experience",
+          "2. Create a prioritized list of improvements based on feedback",
+          "3. Implement a rapid testing cycle for key conversion points"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Focus on niche publications where a small company can stand out",
+          "2. Create a founder story angle that journalists will find compelling",
+          "3. Develop a consistent social presence in 1-2 key channels"
+        ]
+      },
+      "No, we're starting from scratch": {
+        "Scaling & repeatable traction": [
+          "1. Focus on 1-2 acquisition channels to test thoroughly",
+          "2. Build a simple measurement system to track conversion",
+          "3. Create a minimum viable audience acquisition plan"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Document your launch strategy and early experiments",
+          "2. Find 3-5 advisors who can provide credibility to investors",
+          "3. Create a simple pitch focusing on problem and solution"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Set up interviews with potential users in your target market",
+          "2. Create a simple feedback form for early visitors",
+          "3. Implement rapid iteration cycles based on early user insights"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Create a founder's story that connects to current trends",
+          "2. Join relevant communities as a contributor, not just a promoter",
+          "3. Launch a content initiative that showcases your expertise"
+        ]
+      }
+    },
+    "Raised under $1M": {
+      "Yes, we have an engaged community": {
+        "Scaling & repeatable traction": [
+          "1. Implement attribution tracking across all marketing channels",
+          "2. Scale ad spend on your 2-3 best-performing channels",
+          "3. Create a growth dashboard to monitor KPIs weekly"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Create a structured investor update template with key metrics",
+          "2. Build relationships with investors for your next target round",
+          "3. Document milestones and progress tied to fundraising goals"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Implement a formal customer feedback collection system",
+          "2. Create a prioritization framework for product improvements",
+          "3. Set up a customer advisory board for ongoing insights"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Develop a PR calendar with quarterly goals",
+          "2. Create data-driven content that journalists can reference",
+          "3. Secure speaking opportunities at industry events"
+        ]
+      },
+      "We have a small following but need more traction": {
+        "Scaling & repeatable traction": [
+          "1. Test paid acquisition channels with small budgets",
+          "2. Implement a formal referral or ambassador program",
+          "3. Optimize your conversion funnel based on analytics"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Create monthly investor updates highlighting growth",
+          "2. Benchmark your metrics against competitors",
+          "3. Build a network of strategic advisors for warm introductions"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Set up a structured feedback collection program",
+          "2. Create a customer success function to improve retention",
+          "3. Implement a product feedback prioritization system"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Build relationships with 5-7 journalists in your space",
+          "2. Create a content calendar focused on thought leadership",
+          "3. Participate in industry panels and virtual events"
+        ]
+      },
+      "No, we're starting from scratch": {
+        "Scaling & repeatable traction": [
+          "1. Run small tests across multiple acquisition channels",
+          "2. Create a data-driven framework for scaling successful channels",
+          "3. Build conversion-focused landing pages for each target segment"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Document your hypothesis testing and market validation",
+          "2. Create a formal advisory board with industry expertise",
+          "3. Build relationships with investors ahead of your next raise"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Set up a comprehensive user research program",
+          "2. Create a systematic approach to testing improvement hypotheses",
+          "3. Implement a customer feedback scoring system"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Hire a part-time PR specialist or agency",
+          "2. Create a thought leadership position around a key industry problem",
+          "3. Develop relationships with industry analysts and influencers"
+        ]
+      }
+  }
+},
+"Raised under $1M": {
+        "Get Users or Customers": [
+          "Run targeted ad experiments to identify high-converting messages",
+          "Create an exclusive waitlist with referral incentives",
+          "Partner with complementary products for shared launches"
+        ],
+        "Attract Investors": [
+          "Build a data-driven pitch showing early traction metrics",
+          "Create investor-specific content demonstrating market understanding",
+          "Get warm introductions through strategic advisory relationships"
+        ],
+        "Build Press & Awareness": [
+          "Position your funding as validation for a larger trend story",
+          "Create data-driven content that journalists can easily reference",
+          "Build relationships with 3-5 key reporters in your space"
+        ],
+        "Create Industry Influence": [
+          "Participate in industry panels and speaking opportunities",
+          "Launch a small but high-quality thought leadership publication",
+          "Create a community initiative that positions you as a connector"
+        ]
+      },
+      "Raised $1M-$3M": {
+        "Get Users or Customers": [
+          "Scale successful acquisition channels with increased ad spend",
+          "Implement a full-featured referral program with tiered rewards",
+          "Execute co-marketing campaigns with established partners"
+        ],
+        "Attract Investors": [
+          "Create quarterly investor updates showcasing growth metrics",
+          "Secure strategic advisors who can connect you to your next round",
+          "Generate press coverage highlighting your unique market position"
+        ],
+        "Build Press & Awareness": [
+          "Hire a specialized PR firm for a coordinated media campaign",
+          "Create a newsworthy data report about your industry",
+          "Launch a creative campaign designed for social sharing"
+        ],
+        "Create Industry Influence": [
+          "Host industry roundtables with key decision-makers",
+          "Launch an authoritative content platform or podcast",
+          "Create an industry index or report that becomes a reference point"
+        ]
+      },
+      "Raised $3M+": {
+        "Get Users or Customers": [
+          "Implement omnichannel marketing with consistent brand messaging",
+          "Launch high-production value content series",
+          "Execute high-visibility partnerships with market leaders"
+        ],
+        "Attract Investors": [
+          "Position your company as category-defining through thought leadership",
+          "Host exclusive investor-focused events showcasing your vision",
+          "Generate tier-one press coverage highlighting growth metrics"
+        ],
+        "Build Press & Awareness": [
+          "Execute a comprehensive PR strategy across multiple channels",
+          "Create viral-optimized content campaigns with significant budget",
+          "Sponsor or create signature industry events"
+        ],
+        "Create Industry Influence": [
+          "Position your CEO as an industry visionary through speaking and publishing",
+          "Create a proprietary methodology or framework for your industry",
+          "Launch a foundation or initiative addressing industry-wide challenges"
+        ]
+      }
+    },
+    "Brand Repositioning (Rebrand or Pivot)": {
+      "Bootstrapping (No external funding)": {
+        "Get Users or Customers": [
+          "Craft a clear narrative explaining the 'why' behind your repositioning",
+          "Create before/after content showing the evolution",
+          "Personally reach out to existing customers with special loyalty offers"
+        ],
+        "Attract Investors": [
+          "Frame your repositioning as strategic market adaptation",
+          "Show early validation metrics from the new direction",
+          "Create case studies showing the problem your new positioning solves"
+        ],
+        "Build Press & Awareness": [
+          "Pitch your pivot as a response to market insights",
+          "Create visual assets that tell your transformation story",
+          "Leverage customer testimonials to validate the change"
+        ],
+        "Create Industry Influence": [
+          "Document your repositioning journey as a learning resource",
+          "Position the change as thought leadership on where the market is headed",
+          "Host discussions around the challenges your new position addresses"
+        ]
+      },
+      "Raised under $1M": {
+        "Get Users or Customers": [
+          "Run a small, targeted campaign highlighting your new value proposition",
+          "Create a special transition offer for new customers",
+          "Build a referral program that incentivizes sharing your new positioning"
+        ],
+        "Attract Investors": [
+          "Create a pitch deck that frames your pivot as strategic insight",
+          "Gather testimonials from advisors supporting the new direction",
+          "Highlight early metrics showing positive response to the repositioning"
+        ],
+        "Build Press & Awareness": [
+          "Develop a press release explaining the strategic shift",
+          "Create a video series documenting your transformation story",
+          "Partner with industry analysts to validate your new direction"
+        ],
+        "Create Industry Influence": [
+          "Publish a manifesto about why the industry needs to evolve",
+          "Host a virtual event about your market insights",
+          "Create content comparing old vs. new approaches in your industry"
+        ]
+      },
+      "Raised $1M-$3M": {
+        "Get Users or Customers": [
+          "Launch a multi-channel rebrand campaign with consistent messaging",
+          "Create special incentives for existing customers to embrace the new direction",
+          "Host a launch event to showcase your evolved offerings"
+        ],
+        "Attract Investors": [
+          "Create a data-driven story about market opportunity in your new direction",
+          "Build an advisory board that strengthens your new positioning",
+          "Generate press highlighting the strategic vision behind your pivot"
+        ],
+        "Build Press & Awareness": [
+          "Work with a PR agency on a coordinated rebranding announcement",
+          "Create a multimedia press kit explaining your evolution",
+          "Launch a thought leadership series on industry transformation"
+        ],
+        "Create Industry Influence": [
+          "Host an industry roundtable about the future of your sector",
+          "Launch a research report validating your new direction",
+          "Create partnerships with complementary brands that reinforce your positioning"
+        ]
+      },
+      "Raised $3M+": {
+        "Get Users or Customers": [
+          "Execute a major rebrand campaign across all channels",
+          "Create a customer migration program with concierge support",
+          "Launch new products/features that showcase your evolved direction"
+        ],
+        "Attract Investors": [
+          "Position your pivot as category creation or market leadership",
+          "Develop comprehensive market analysis supporting your new direction",
+          "Generate major press coverage framing your evolution as industry-defining"
+        ],
+        "Build Press & Awareness": [
+          "Work with a top-tier PR firm on a major relaunch campaign",
+          "Secure speaking opportunities at major industry events",
+          "Create high-production video content explaining your vision"
+        ],
+        "Create Industry Influence": [
+          "Launch a large-scale industry initiative or foundation",
+          "Create and promote a new framework for understanding your sector",
+          "Host a major conference showcasing thought leaders aligned with your vision"
+        ]
+      }
+    },
+    "Funding Announcement": {
+      "Raised under $1M": {
+        "Get Users or Customers": [
+          "Frame your funding as validation of your customer-first approach",
+          "Create special offers for customers who join during your funding momentum",
+          "Use funding press to drive traffic to high-converting landing pages"
+        ],
+        "Attract Investors": [
+          "Position this round as the foundation for a bigger vision",
+          "Create investor-specific content showcasing your capital efficiency",
+          "Document key milestones achieved with minimal funding"
+        ],
+        "Build Press & Awareness": [
+          "Craft a funding announcement that tells a larger market story",
+          "Secure quotes from investors explaining why they invested",
+          "Create a funding FAQ addressing common questions"
+        ],
+        "Create Industry Influence": [
+          "Share insights about your fundraising process to help other founders",
+          "Host a small event bringing together investors and industry peers",
+          "Launch a thought leadership piece about your industry's funding landscape"
+        ]
+      },
+      "Raised $1M-$3M": {
+        "Get Users or Customers": [
+          "Use funding to boost acquisition efforts on your best channels",
+          "Launch a new feature or offering tied to your funding",
+          "Create a customer loyalty program funded by the new investment"
+        ],
+        "Attract Investors": [
+          "Build relationships with future investors by sharing your growth plan",
+          "Create a formal advisor network with strategic connections",
+          "Highlight unique market insights that drove your fundraising success"
+        ],
+        "Build Press & Awareness": [
+          "Secure coverage in tech and industry publications",
+          "Create a video series about your vision and funding journey",
+          "Launch a PR campaign focusing on your growth trajectory"
+        ],
+        "Create Industry Influence": [
+          "Start an industry council or initiative supported by your new funding",
+          "Publish research or data leveraging your fundraising momentum",
+          "Host a virtual summit featuring investors and industry experts"
+        ]
+      },
+      "Raised $3M+": {
+        "Get Users or Customers": [
+          "Use funding news to launch major customer acquisition campaigns",
+          "Create a premium tier or expanded offerings enabled by funding",
+          "Execute high-value partnerships announcing alongside funding news"
+        ],
+        "Attract Investors": [
+          "Position this round as validation of category leadership",
+          "Create comprehensive investor relations materials for future rounds",
+          "Generate tier-one press coverage emphasizing competitive advantage"
+        ],
+        "Build Press & Awareness": [
+          "Work with a PR firm to secure mainstream media coverage",
+          "Create a multimedia press kit with founder interviews and vision",
+          "Launch a major advertising campaign leveraging funding credibility"
+        ],
+        "Create Industry Influence": [
+          "Commission an industry-defining report or research study",
+          "Launch an incubator or accelerator program in your space",
+          "Create a foundation or social impact initiative tied to your mission"
+        ]
+      }
+    },
+    "Major Partnership or Publicity Push": {
+      "Bootstrapping (No external funding)": {
+        "Get Users or Customers": [
+          "Design partnership terms that prioritize customer acquisition",
+          "Create exclusive offers for your partner's audience",
+          "Focus on partners with highly engaged audiences rather than size"
+        ],
+        "Attract Investors": [
+          "Structure partnerships that demonstrate market validation",
+          "Secure case studies from partners highlighting your value",
+          "Use partnerships to generate data points for investor pitches"
+        ],
+        "Build Press & Awareness": [
+          "Create joint press releases with compelling narrative hooks",
+          "Design visual content that both partners can share",
+          "Host a joint webinar or event to showcase the partnership"
+        ],
+        "Create Industry Influence": [
+          "Co-create thought leadership content with your partner",
+          "Launch a joint research initiative or industry report",
+          "Create a partner advisory board for ongoing collaboration"
+        ]
+      },
+      "Raised under $1M": {
+        "Get Users or Customers": [
+          "Develop co-marketing campaigns with targeted conversion goals",
+          "Create exclusive bundles or offers with your partner",
+          "Build referral systems that track partnership-driven acquisition"
+        ],
+        "Attract Investors": [
+          "Structure partnerships that showcase your unique market position",
+          "Highlight how partnerships expand your market reach efficiently",
+          "Document customer acquisition cost improvements through partnerships"
+        ],
+        "Build Press & Awareness": [
+          "Secure media coverage focusing on the innovative nature of the partnership",
+          "Create shareable assets that both companies can promote",
+          "Launch a joint content series highlighting shared expertise"
+        ],
+        "Create Industry Influence": [
+          "Host a joint event bringing together your respective communities",
+          "Create co-branded thought leadership establishing shared authority",
+          "Develop a certification or standard that others in the industry can adopt"
+        ]
+      },
+      "Raised $1M-$3M": {
+        "Get Users or Customers": [
+          "Launch an integrated campaign across both partner audiences",
+          "Create premium co-branded offerings with revenue sharing",
+          "Implement cross-platform tracking to optimize conversion from partnerships"
+        ],
+        "Attract Investors": [
+          "Structure strategic partnerships showing pathway to larger market",
+          "Highlight how partnerships create defensible competitive advantages",
+          "Show data from successful partnerships to validate growth potential"
+        ],
+        "Build Press & Awareness": [
+          "Work with PR firms to amplify partnership announcements",
+          "Create case studies showcasing successful partnership outcomes",
+          "Develop a media tour featuring executives from both companies"
+        ],
+        "Create Industry Influence": [
+          "Launch a co-branded industry initiative or coalition",
+          "Create an invite-only community for industry leaders",
+          "Publish research leveraging data from both organizations"
+        ]
+      },
+      "Raised $3M+": {
+        "Get Users or Customers": [
+          "Execute major co-marketing campaigns with significant budget",
+          "Create seamless product integrations with partner services",
+          "Launch joint venture offerings that leverage both brands"
+        ],
+        "Attract Investors": [
+          "Structure high-profile partnerships showing market leadership",
+          "Highlight exclusive or first-of-kind partnership advantages",
+          "Show how partnerships create significant barriers to entry"
+        ],
+        "Build Press & Awareness": [
+          "Secure national or global press coverage for major partnerships",
+          "Create high-production video content featuring both brands",
+          "Launch joint advertising campaigns across multiple channels"
+        ],
+        "Create Industry Influence": [
+          "Establish an industry consortium or standards organization",
+          "Create a joint foundation or accelerator program",
+          "Host a major conference or industry event together"
+        ]
+      }
+    }
+  },
+  "next_steps": {
+    "Bootstrapping (No external funding)": {
+      "Yes, we have an engaged community": {
+        "Scaling & repeatable traction": [
+          "1. Analyze which launch channels delivered highest ROI",
+          "2. Document repeatable processes for your best-performing channels",
+          "3. Create a lean content calendar focused on high-conversion topics"
+        ],
+        "Investor relations & positioning for next raise": [
+          "1. Build a simple investor update template highlighting key metrics",
+          "2. Identify 10-15 potential angels or micro-VCs aligned with your vision",
+          "3. Create a basic pitch deck focused on traction and capital efficiency"
+        ],
+        "Optimizing based on customer feedback": [
+          "1. Implement a simple feedback collection system",
+          "2. Identify the top 3 points of friction in your current experience",
+          "3. Create a weekly iteration schedule focused on quick wins"
+        ],
+        "Sustaining press & industry visibility": [
+          "1. Develop a simple PR calendar with monthly goals",
+          "2. Create a content repurposing system to maximize reach",
+          "3. Join 3-5 communities where your audience gathers"
+        ]
+      },

@@ -117,14 +117,35 @@ def _send_direct_email(recipient_email, plan):
         msg['From'] = f"Moxie Launch Assistant <{smtp_username}>"
         msg['To'] = recipient_email
         
-        # Create HTML content
+        # Create HTML content for strategies
         strategies_html = ""
         for strategy in plan['recommended_strategies']:
-            strategies_html += f"<li>{strategy}</li>"
+            if isinstance(strategy, dict):
+                # If it's a dictionary format, extract the description
+                description = strategy.get('description', '')
+                if description:
+                    strategies_html += f"<li>{description}</li>"
+                else:
+                    strategies_html += f"<li>{str(strategy)}</li>"
+            else:
+                # If it's just a string, use it directly
+                strategies_html += f"<li>{strategy}</li>"
         
+        # Create HTML content for next steps with proper formatting
         next_steps_html = ""
-        for step in plan['next_steps']:
-            next_steps_html += f"<li>{step}</li>"
+        for i, step in enumerate(plan['next_steps']):
+            if isinstance(step, dict):
+                # If it's a dictionary format, extract the title and description
+                title = step.get('title', '')
+                description = step.get('description', '')
+                if title and description:
+                    next_steps_html += f"<li><strong>{title}</strong>: {description}</li>"
+                else:
+                    # If only description is available or neither
+                    next_steps_html += f"<li>{step.get('description', str(step))}</li>"
+            else:
+                # If it's just a string, use it directly
+                next_steps_html += f"<li>{step}</li>"
         
         html = f'''
         <html>
