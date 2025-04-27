@@ -40,12 +40,21 @@ def add_milestone(user_email, milestone_name, milestone_date, milestone_descript
     if user_email not in milestones:
         milestones[user_email] = []
     
+    # Check for duplicates before adding
+    formatted_date = milestone_date.strftime("%Y-%m-%d") if isinstance(milestone_date, datetime.date) else milestone_date
+    for existing in milestones[user_email]:
+        if (existing["name"] == milestone_name and 
+            existing["date"] == formatted_date and
+            existing["description"] == milestone_description):
+            # This is a duplicate, don't add it
+            return True, existing["id"]
+    
     # Create milestone object
     milestone_id = str(uuid.uuid4())
     milestone = {
         "id": milestone_id,
         "name": milestone_name,
-        "date": milestone_date.strftime("%Y-%m-%d"),
+        "date": formatted_date if isinstance(formatted_date, str) else milestone_date.strftime("%Y-%m-%d"),
         "description": milestone_description,
         "type": milestone_type,
         "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,6 +67,16 @@ def add_milestone(user_email, milestone_name, milestone_date, milestone_descript
     success = save_milestones(milestones)
     
     return success, milestone_id
+
+def reset_user_milestones(user_email):
+    """Clear all milestones for a specific user"""
+    milestones = load_milestones()
+    
+    if user_email in milestones:
+        milestones[user_email] = []
+        return save_milestones(milestones)
+    
+    return True
 
 def get_user_milestones(user_email):
     """Get all milestones for a specific user"""
@@ -266,6 +285,42 @@ def create_suggested_milestones(launch_plan, user_email):
     
     return suggested_milestones
 
+def remove_duplicate_milestones(user_email):
+    """
+    Remove duplicate milestones for a user by comparing name, date and description
+    
+    Args:
+        user_email (str): User's email
+        
+    Returns:
+        int: Number of duplicates removed
+    """
+    milestones = load_milestones()
+    
+    if user_email not in milestones:
+        return 0
+    
+    user_milestones = milestones[user_email]
+    unique_milestones = []
+    seen = set()
+    duplicates_removed = 0
+    
+    for milestone in user_milestones:
+        # Create a unique key for each milestone
+        key = (milestone["name"], milestone["date"], milestone["description"])
+        
+        if key not in seen:
+            seen.add(key)
+            unique_milestones.append(milestone)
+        else:
+            duplicates_removed += 1
+    
+    if duplicates_removed > 0:
+        milestones[user_email] = unique_milestones
+        save_milestones(milestones)
+    
+    return duplicates_removed
+
 def display_improved_timeline(milestones, deletable=False, user_email=None):
     """
     Display an improved timeline visualization of milestones
@@ -473,6 +528,11 @@ def milestone_calendar_ui(user_email, launch_plan=None):
     try:
         st.markdown("### Launch Timeline & Milestones")
 
+        # Check for duplicates and remove them automatically
+        duplicates_removed = remove_duplicate_milestones(user_email)
+        if duplicates_removed > 0:
+            st.toast(f"Removed {duplicates_removed} duplicate milestones")
+        
         # Get existing milestones
         user_milestones = get_user_milestones(user_email)
         
@@ -486,6 +546,10 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                 
                 try:
                     suggested_milestones = create_suggested_milestones(launch_plan, user_email)
+                    
+                    # Add option to reset calendar and use only suggested milestones
+                    use_only_suggested = st.checkbox("Replace existing milestones with these suggestions", 
+                                                    help="This will clear your current calendar and add only these suggested milestones")
                     
                     # Display suggested milestones as selectable options
                     selected_milestones = []
@@ -505,10 +569,20 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                     
                     # Add selected milestones
                     if selected_milestones and st.button("Add Selected Milestones", use_container_width=True):
+                        # Clear existing milestones if requested
+                        if use_only_suggested:
+                            reset_user_milestones(user_email)
+                            
+                        # Add selected milestones
+                        added_count = 0
                         for milestone in selected_milestones:
                             milestone_date = datetime.datetime.strptime(milestone['date'], "%Y-%m-%d").date()
-                            add_milestone(user_email, milestone['name'], milestone_date, milestone['description'], milestone['type'])
-                        st.success("Selected milestones added to your calendar!")
+                            success, _ = add_milestone(user_email, milestone['name'], milestone_date, 
+                                                    milestone['description'], milestone['type'])
+                            if success:
+                                added_count += 1
+                                
+                        st.success(f"{added_count} milestones added to your calendar!")
                         st.experimental_rerun()
                 except Exception as e:
                     st.error(f"Error creating suggested milestones: {str(e)}")
@@ -537,16 +611,28 @@ def milestone_calendar_ui(user_email, launch_plan=None):
             if not user_milestones:
                 st.info("You haven't added any milestones yet. Add some milestones to see them in your calendar.")
             else:
+                # Add a reset calendar button
+                col1, col2 = st.columns([3, 1])
+                with col2:
+                    if st.button("Reset Calendar", type="secondary"):
+                        if reset_user_milestones(user_email):
+                            st.success("Calendar has been reset!")
+                            st.experimental_rerun()
+                        else:
+                            st.error("Failed to reset calendar")
+                
                 # Use checkbox instead of toggle for edit mode
                 edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
                 
+                # Show total number of milestones at top
+                st.info(f"You have {len(user_milestones)} milestones in your calendar")
+                
                 # Use the improved timeline display with delete checkboxes if in edit mode
-                # Pass the user_email to the display function
                 milestones_to_delete = display_improved_timeline(user_milestones, deletable=edit_mode, user_email=user_email)
                 
                 # Show delete button if in edit mode and milestones are selected
                 if edit_mode and milestones_to_delete:
-                    if st.button(f"Delete Selected Milestones ({len(milestones_to_delete)})"):
+                    if st.button(f"Delete Selected Milestones ({len(milestones_to_delete)})", type="primary"):
                         deleted_count = 0
                         for milestone_id in milestones_to_delete:
                             if delete_milestone(user_email, milestone_id):
