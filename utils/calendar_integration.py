@@ -519,7 +519,7 @@ def display_improved_timeline(milestones, deletable=False, user_email=None):
 
 def milestone_calendar_ui(user_email, launch_plan=None):
     """
-    Display the milestone calendar UI
+    Display the milestone calendar UI with session-based management
     
     Args:
         user_email (str): User's email
@@ -527,14 +527,26 @@ def milestone_calendar_ui(user_email, launch_plan=None):
     """
     try:
         st.markdown("### Launch Timeline & Milestones")
-
-        # Check for duplicates and remove them automatically
-        duplicates_removed = remove_duplicate_milestones(user_email)
-        if duplicates_removed > 0:
-            st.toast(f"Removed {duplicates_removed} duplicate milestones")
         
-        # Get existing milestones
-        user_milestones = get_user_milestones(user_email)
+        # Create a unique session ID for this user if not already exists
+        if "session_id" not in st.session_state:
+            st.session_state.session_id = str(uuid.uuid4())
+        
+        # Create a unique key for this session's milestones
+        session_key = f"{user_email}_{st.session_state.session_id}"
+        
+        # Get milestones for previous sessions (for reference only)
+        previous_milestones = get_user_milestones(user_email)
+        
+        # Initialize session milestones if not already done
+        if "session_milestones" not in st.session_state:
+            # Load existing milestones for this session from the store if they exist
+            # or create a new entry for this session
+            milestones_db = load_milestones()
+            if session_key in milestones_db:
+                st.session_state.session_milestones = milestones_db[session_key]
+            else:
+                st.session_state.session_milestones = []
         
         # Display tabs for adding new milestones vs viewing existing ones
         tab1, tab2 = st.tabs(["Add Milestones", "View Calendar"])
@@ -547,9 +559,35 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                 try:
                     suggested_milestones = create_suggested_milestones(launch_plan, user_email)
                     
-                    # Add option to reset calendar and use only suggested milestones
-                    use_only_suggested = st.checkbox("Replace existing milestones with these suggestions", 
-                                                    help="This will clear your current calendar and add only these suggested milestones")
+                    # Add option to use previous milestones
+                    if previous_milestones:
+                        use_previous = st.checkbox("Include milestones from previous sessions", 
+                                                 help="This will import milestones from your previous sessions")
+                        
+                        if use_previous and st.button("Import Previous Milestones", use_container_width=True):
+                            # Import previous milestones to this session
+                            # Avoid duplicates by checking existing session milestones
+                            added_count = 0
+                            for milestone in previous_milestones:
+                                # Skip if this milestone already exists in the session
+                                if not any(m['name'] == milestone['name'] and 
+                                         m['date'] == milestone['date'] and 
+                                         m['description'] == milestone['description'] 
+                                         for m in st.session_state.session_milestones):
+                                    # Create a new ID for the imported milestone
+                                    milestone_copy = milestone.copy()
+                                    milestone_copy['id'] = str(uuid.uuid4())
+                                    st.session_state.session_milestones.append(milestone_copy)
+                                    added_count += 1
+                            
+                            if added_count > 0:
+                                # Save session milestones
+                                milestones_db = load_milestones()
+                                milestones_db[session_key] = st.session_state.session_milestones
+                                save_milestones(milestones_db)
+                                
+                                st.success(f"Imported {added_count} milestones from previous sessions!")
+                                st.experimental_rerun()
                     
                     # Display suggested milestones as selectable options
                     selected_milestones = []
@@ -569,21 +607,35 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                     
                     # Add selected milestones
                     if selected_milestones and st.button("Add Selected Milestones", use_container_width=True):
-                        # Clear existing milestones if requested
-                        if use_only_suggested:
-                            reset_user_milestones(user_email)
-                            
-                        # Add selected milestones
+                        # Add each milestone to the session
                         added_count = 0
                         for milestone in selected_milestones:
-                            milestone_date = datetime.datetime.strptime(milestone['date'], "%Y-%m-%d").date()
-                            success, _ = add_milestone(user_email, milestone['name'], milestone_date, 
-                                                    milestone['description'], milestone['type'])
-                            if success:
+                            # Skip if this milestone already exists in the session
+                            if not any(m['name'] == milestone['name'] and 
+                                     m['date'] == milestone['date'] and 
+                                     m['description'] == milestone['description'] 
+                                     for m in st.session_state.session_milestones):
+                                # Add new milestone to session
+                                milestone_id = str(uuid.uuid4())
+                                new_milestone = {
+                                    "id": milestone_id,
+                                    "name": milestone['name'],
+                                    "date": milestone['date'],
+                                    "description": milestone['description'],
+                                    "type": milestone['type'],
+                                    "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                }
+                                st.session_state.session_milestones.append(new_milestone)
                                 added_count += 1
-                                
-                        st.success(f"{added_count} milestones added to your calendar!")
-                        st.experimental_rerun()
+                        
+                        if added_count > 0:
+                            # Save session milestones
+                            milestones_db = load_milestones()
+                            milestones_db[session_key] = st.session_state.session_milestones
+                            save_milestones(milestones_db)
+                            
+                            st.success(f"{added_count} milestones added to your calendar!")
+                            st.experimental_rerun()
                 except Exception as e:
                     st.error(f"Error creating suggested milestones: {str(e)}")
                     st.info("You can still create custom milestones below.")
@@ -600,56 +652,125 @@ def milestone_calendar_ui(user_email, launch_plan=None):
             
             if st.button("Add to Calendar", use_container_width=True):
                 if milestone_name and milestone_description:
-                    success, _ = add_milestone(user_email, milestone_name, milestone_date, milestone_description, milestone_type)
-                    if success:
+                    # Add to session milestones
+                    milestone_id = str(uuid.uuid4())
+                    formatted_date = milestone_date.strftime("%Y-%m-%d")
+                    
+                    # Skip if this milestone already exists in the session
+                    if not any(m['name'] == milestone_name and 
+                             m['date'] == formatted_date and 
+                             m['description'] == milestone_description 
+                             for m in st.session_state.session_milestones):
+                        new_milestone = {
+                            "id": milestone_id,
+                            "name": milestone_name,
+                            "date": formatted_date,
+                            "description": milestone_description,
+                            "type": milestone_type,
+                            "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        }
+                        st.session_state.session_milestones.append(new_milestone)
+                        
+                        # Save session milestones
+                        milestones_db = load_milestones()
+                        milestones_db[session_key] = st.session_state.session_milestones
+                        save_milestones(milestones_db)
+                        
                         st.success("Milestone added to your calendar!")
                         st.experimental_rerun()
+                    else:
+                        st.warning("This milestone already exists in your calendar.")
                 else:
                     st.error("Please enter a name and description for your milestone.")
         
         with tab2:
-            if not user_milestones:
+            if not st.session_state.session_milestones:
                 st.info("You haven't added any milestones yet. Add some milestones to see them in your calendar.")
             else:
                 # Add a reset calendar button
                 col1, col2 = st.columns([3, 1])
                 with col2:
                     if st.button("Reset Calendar", type="secondary"):
-                        if reset_user_milestones(user_email):
-                            st.success("Calendar has been reset!")
-                            st.experimental_rerun()
-                        else:
-                            st.error("Failed to reset calendar")
+                        # Clear session milestones
+                        st.session_state.session_milestones = []
+                        
+                        # Update milestones store
+                        milestones_db = load_milestones()
+                        milestones_db[session_key] = []
+                        save_milestones(milestones_db)
+                        
+                        st.success("Calendar has been reset!")
+                        st.experimental_rerun()
                 
                 # Use checkbox instead of toggle for edit mode
                 edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
                 
                 # Show total number of milestones at top
-                st.info(f"You have {len(user_milestones)} milestones in your calendar")
+                st.info(f"You have {len(st.session_state.session_milestones)} milestones in your calendar")
                 
-                # Use the improved timeline display with delete checkboxes if in edit mode
-                milestones_to_delete = display_improved_timeline(user_milestones, deletable=edit_mode, user_email=user_email)
+                # Use the timeline display with delete checkboxes if in edit mode
+                # Modify the existing function to work with session milestones
+                milestones_to_delete = display_improved_timeline(
+                    st.session_state.session_milestones, 
+                    deletable=edit_mode, 
+                    user_email=session_key  # Use session key for calendar links
+                )
                 
                 # Show delete button if in edit mode and milestones are selected
                 if edit_mode and milestones_to_delete:
                     if st.button(f"Delete Selected Milestones ({len(milestones_to_delete)})", type="primary"):
-                        deleted_count = 0
-                        for milestone_id in milestones_to_delete:
-                            if delete_milestone(user_email, milestone_id):
-                                deleted_count += 1
+                        # Remove selected milestones from session
+                        st.session_state.session_milestones = [
+                            m for m in st.session_state.session_milestones 
+                            if m["id"] not in milestones_to_delete
+                        ]
                         
-                        if deleted_count > 0:
-                            st.success(f"Deleted {deleted_count} milestone(s).")
-                            # Clear the selection state
-                            if "milestones_to_delete" in st.session_state:
-                                del st.session_state.milestones_to_delete
-                            st.experimental_rerun()
-                        else:
-                            st.error("Failed to delete milestones.")
+                        # Update milestones store
+                        milestones_db = load_milestones()
+                        milestones_db[session_key] = st.session_state.session_milestones
+                        save_milestones(milestones_db)
+                        
+                        st.success(f"Deleted {len(milestones_to_delete)} milestone(s).")
+                        # Clear the selection state
+                        if "milestones_to_delete" in st.session_state:
+                            del st.session_state.milestones_to_delete
+                        st.experimental_rerun()
                 
-                # Add helpful info text instead of the Export section
+                # Add helpful info text
                 if not edit_mode:
                     st.info("Click the 'Add to Calendar' button next to any milestone to add it to your Google Calendar.")
+                    
+                # Option to save milestones to user's permanent account
+                if st.button("Save Milestones to My Account", use_container_width=True):
+                    # Save session milestones to user's permanent account
+                    # This allows retrieving them in future sessions
+                    milestones_db = load_milestones()
+                    
+                    # Create or update user's permanent milestones
+                    if user_email not in milestones_db:
+                        milestones_db[user_email] = []
+                    
+                    # Add only new milestones from this session
+                    added_count = 0
+                    for milestone in st.session_state.session_milestones:
+                        # Skip if this milestone already exists in the permanent account
+                        if not any(m['name'] == milestone['name'] and 
+                                 m['date'] == milestone['date'] and 
+                                 m['description'] == milestone['description'] 
+                                 for m in milestones_db[user_email]):
+                            # Create a new ID for the saved milestone
+                            milestone_copy = milestone.copy()
+                            milestone_copy['id'] = str(uuid.uuid4())
+                            milestones_db[user_email].append(milestone_copy)
+                            added_count += 1
+                    
+                    # Save updated milestones
+                    save_milestones(milestones_db)
+                    
+                    if added_count > 0:
+                        st.success(f"Saved {added_count} new milestones to your account!")
+                    else:
+                        st.info("No new milestones to save to your account.")
     except Exception as e:
         st.error(f"An error occurred while displaying the calendar: {str(e)}")
         st.info("You can go back to your launch plan and try again later.")
