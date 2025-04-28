@@ -17,6 +17,12 @@ def reset_form():
     st.session_state.generated_plan = None
     st.session_state.email_sent = False
     st.session_state.show_calendar = False
+    
+    # Reset milestone-related session state
+    if "session_milestones" in st.session_state:
+        del st.session_state.session_milestones
+    if "milestones_to_delete" in st.session_state:
+        del st.session_state.milestones_to_delete
+        
     st.session_state.step = 1
     st.experimental_rerun()
-    
