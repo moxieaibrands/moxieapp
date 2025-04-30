@@ -496,7 +496,7 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                                 added_count += 1
                                 
                         st.success(f"{added_count} milestones added to your calendar!")
-                        st.experimental_rerun()
+                        st.rerun()
                 except Exception as e:
                     st.error(f"Error creating suggested milestones: {str(e)}")
                     st.info("You can still create custom milestones below.")
@@ -516,7 +516,7 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                     success, _ = add_milestone(milestone_name, milestone_date, milestone_description, milestone_type)
                     if success:
                         st.success("Milestone added to your calendar!")
-                        st.experimental_rerun()
+                        st.rerun()
                 else:
                     st.error("Please enter a name and description for your milestone.")
         
@@ -530,7 +530,7 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                     if st.button("Reset Calendar", type="secondary"):
                         st.session_state.session_milestones = []
                         st.success("Calendar has been reset!")
-                        st.experimental_rerun()
+                        st.rerun()
                 
                 # Use checkbox instead of toggle for edit mode
                 edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
@@ -555,7 +555,7 @@ def milestone_calendar_ui(user_email, launch_plan=None):
                             st.session_state.milestones_to_delete = []
                             
                         st.success(f"Deleted {len(milestones_to_delete)} milestone(s).")
-                        st.experimental_rerun()
+                        st.rerun()
                 
                 # Add helpful info text instead of the Export section
                 if not edit_mode:

@@ -25,4 +25,4 @@ def reset_form():
         del st.session_state.milestones_to_delete
         
     st.session_state.step = 1
-    st.experimental_rerun()
+    st.rerun()
