@@ -165,9 +165,9 @@ def step_7():
     """Ask about post-launch priority"""
     def content():
         info_box(
-            'Most founders think the launch is the moment. '
-            'It\'s not. It\'s just the beginning. The question is: How do you sustain attention, turn '
-            'interest into conversions, and prove traction?'
+            'The launch itself is just day one of your journey. Your success will depend on '
+            'what you do after the initial excitement fades. Select your primary focus for '
+            'the post-launch phase to maximize your momentum and impact.'
         )
         
         options = [
