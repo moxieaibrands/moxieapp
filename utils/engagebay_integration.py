@@ -14,55 +14,43 @@ def send_to_engagebay(first_name, email):
         bool: Success status
     """
     try:
-        # EngageBay API endpoint for adding a contact
-        # Note: Using contact API instead of subscriber API
-        url = "https://api.engagebay.com/dev/api/panel/contacts"
+        url = "https://app.engagebay.com/dev/api/panel/subscribers/subscriber"
         
-        # Get API key from secrets or use the one provided
-        api_key = st.secrets.get("engagebay", {}).get("api_key", "cak8t5icrm193ahgtjee7sbcud")
+        # Get API key from secrets
+        api_key = st.secrets.get("engagebay", {}).get("api_key")
         
-        # Try different authentication method
+        if not api_key:
+            return False
+        
+        # Headers with API key
         headers = {
-            "X-AUTH-TOKEN": api_key,
+            "Authorization": api_key,
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
         
-        # Prepare data payload - simplified to match API specs
+        # Contact data with tags
         data = {
             "properties": [
                 {
-                    "name": "first_name",
-                    "value": first_name
+                    "name": "name",
+                    "value": first_name,
+                    "type": "SYSTEM"
                 },
                 {
-                    "name": "email",
-                    "value": email
-                },
-                {
-                    "name": "source",
-                    "value": "moxie-app"
+                    "name": "email", 
+                    "value": email,
+                    "type": "SYSTEM"
                 }
-            ]
+            ],
+            "tags": ["moxie-app"]
         }
-        
-        # Debug info
-        print(f"URL: {url}")
-        print(f"Headers: {headers}")
-        print(f"Data: {data}")
         
         # Make the API request
         response = requests.post(url, headers=headers, data=json.dumps(data))
         
-        # Check if successful
-        if response.status_code in [200, 201, 202]:
-            print(f"Contact added successfully: {response.text}")
-            return True
-        else:
-            print(f"Error adding contact: {response.status_code} - {response.text}")
-            return False
-            
-    except Exception as e:
-        print(f"Exception in EngageBay integration: {str(e)}")
-        return False
+        # Return success status
+        return response.status_code in [200, 201, 202]
         
+    except Exception as e:
+        return False

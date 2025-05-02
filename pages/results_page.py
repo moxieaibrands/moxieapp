@@ -157,7 +157,3 @@ def display_results():
         st.error(f"An error occurred while displaying results: {str(e)}")
         if st.button("Start Over"):
             reset_form()
-
-
-
-            
