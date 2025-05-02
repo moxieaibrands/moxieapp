@@ -445,121 +445,238 @@ def milestone_calendar_ui(user_email, launch_plan=None):
     try:
         st.markdown("### Launch Timeline & Milestones")
         
+        # Initialize session states for feedback
+        if "milestone_added_feedback" not in st.session_state:
+            st.session_state.milestone_added_feedback = None
+        
+        # Display feedback message if present
+        if st.session_state.milestone_added_feedback:
+            feedback_type, feedback_message = st.session_state.milestone_added_feedback
+            if feedback_type == "success":
+                st.success(feedback_message)
+            elif feedback_type == "error":
+                st.error(feedback_message)
+            elif feedback_type == "info":
+                st.info(feedback_message)
+            
+            # Clear the feedback after showing it
+            st.session_state.milestone_added_feedback = None
+        
         # Initialize session milestones if not already done
         if "session_milestones" not in st.session_state:
             st.session_state.session_milestones = []
         
-        # Display tabs for adding new milestones vs viewing existing ones
+        # Create tabs
         tab1, tab2 = st.tabs(["Add Milestones", "View Calendar"])
         
         with tab1:
-            # Option to use suggested milestones if launch plan is available
-            if launch_plan:
-                st.markdown("#### Suggested Milestones")
-                
-                try:
-                    suggested_milestones = create_suggested_milestones(launch_plan)
-                    
-                    # Add option to reset calendar and use only suggested milestones
-                    use_only_suggested = st.checkbox("Replace existing milestones with these suggestions", 
-                                                    help="This will clear your current calendar and add only these suggested milestones")
-                    
-                    # Display suggested milestones as selectable options
-                    selected_milestones = []
-                    for i, milestone in enumerate(suggested_milestones):
-                        col1, col2, col3 = st.columns([1, 3, 2])
-                        with col1:
-                            selected = st.checkbox("", key=f"suggested_ms_{i}")
-                            if selected:
-                                selected_milestones.append(milestone)
-                        with col2:
-                            st.markdown(f"**{milestone['name']}**")
-                            st.markdown(f"_{milestone['description']}_")
-                        with col3:
-                            st.markdown(f"Date: {milestone['date']}")
-                            st.markdown(f"Type: {milestone['type'].capitalize()}")
-                        st.divider()
-                    
-                    # Add selected milestones
-                    if selected_milestones and st.button("Add Selected Milestones", use_container_width=True):
-                        # Clear existing milestones if requested
-                        if use_only_suggested:
-                            st.session_state.session_milestones = []
-                            
-                        # Add selected milestones
-                        added_count = 0
-                        for milestone in selected_milestones:
-                            milestone_date = datetime.datetime.strptime(milestone['date'], "%Y-%m-%d").date()
-                            success, _ = add_milestone(milestone['name'], milestone_date, 
-                                                    milestone['description'], milestone['type'])
-                            if success:
-                                added_count += 1
-                                
-                        st.success(f"{added_count} milestones added to your calendar!")
-                        st.rerun()
-                except Exception as e:
-                    st.error(f"Error creating suggested milestones: {str(e)}")
-                    st.info("You can still create custom milestones below.")
-                
-                st.markdown("---")
-            
-            # Custom milestone creation form
-            st.markdown("#### Add Custom Milestone")
-            
-            milestone_name = st.text_input("Milestone Name", placeholder="E.g., Website Launch")
-            milestone_date = st.date_input("Date", min_value=datetime.date.today())
-            milestone_description = st.text_area("Description", placeholder="Describe this milestone")
-            milestone_type = st.selectbox("Type", ["pre-launch", "launch", "post-launch"])
-            
-            if st.button("Add to Calendar", use_container_width=True):
-                if milestone_name and milestone_description:
-                    success, _ = add_milestone(milestone_name, milestone_date, milestone_description, milestone_type)
-                    if success:
-                        st.success("Milestone added to your calendar!")
-                        st.rerun()
-                else:
-                    st.error("Please enter a name and description for your milestone.")
+            render_add_milestones_view(launch_plan)
         
         with tab2:
-            if not st.session_state.session_milestones:
-                st.info("You haven't added any milestones yet. Add some milestones to see them in your calendar.")
-            else:
-                # Add a reset calendar button
-                col1, col2 = st.columns([3, 1])
-                with col2:
-                    if st.button("Reset Calendar", type="secondary"):
-                        st.session_state.session_milestones = []
-                        st.success("Calendar has been reset!")
-                        st.rerun()
-                
-                # Use checkbox instead of toggle for edit mode
-                edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
-                
-                # Show total number of milestones at top
-                st.info(f"You have {len(st.session_state.session_milestones)} milestones in your calendar")
-                
-                # Use the improved timeline display with delete checkboxes if in edit mode
-                milestones_to_delete = display_improved_timeline(st.session_state.session_milestones, deletable=edit_mode)
-                
-                # Show delete button if in edit mode and milestones are selected
-                if edit_mode and milestones_to_delete:
-                    if st.button(f"Delete Selected Milestones ({len(milestones_to_delete)})", type="primary"):
-                        # Remove selected milestones
-                        st.session_state.session_milestones = [
-                            m for m in st.session_state.session_milestones 
-                            if m["id"] not in milestones_to_delete
-                        ]
-                        
-                        # Clear the selection state
-                        if "milestones_to_delete" in st.session_state:
-                            st.session_state.milestones_to_delete = []
-                            
-                        st.success(f"Deleted {len(milestones_to_delete)} milestone(s).")
-                        st.rerun()
-                
-                # Add helpful info text instead of the Export section
-                if not edit_mode:
-                    st.info("Click the 'Add to Calendar' button next to any milestone to add it to your Google Calendar.")
+            render_calendar_view(user_email)
+        
     except Exception as e:
         st.error(f"An error occurred while displaying the calendar: {str(e)}")
         st.info("You can go back to your launch plan and try again later.")
+
+def render_add_milestones_view(launch_plan):
+    """Render the Add Milestones tab content"""
+    # Initialize session state for form values if not exists
+    if "custom_milestone_form" not in st.session_state:
+        st.session_state.custom_milestone_form = {
+            "name": "",
+            "date": datetime.date.today(),
+            "description": "",
+            "type": "pre-launch"
+        }
+    
+    # Initialize session state for local feedback (just for the form area)
+    if "custom_milestone_local_feedback" not in st.session_state:
+        st.session_state.custom_milestone_local_feedback = None
+    
+    # Initialize session state for suggested milestones feedback
+    if "suggested_milestones_feedback" not in st.session_state:
+        st.session_state.suggested_milestones_feedback = None
+    
+    # Option to use suggested milestones if launch plan is available
+    if launch_plan:
+        st.markdown("#### Suggested Milestones")
+        
+        try:
+            suggested_milestones = create_suggested_milestones(launch_plan)
+            
+            # Add option to reset calendar and use only suggested milestones
+            use_only_suggested = st.checkbox("Replace existing milestones with these suggestions", 
+                                            help="This will clear your current calendar and add only these suggested milestones")
+            
+            # Display suggested milestones as selectable options
+            selected_milestones = []
+            for i, milestone in enumerate(suggested_milestones):
+                col1, col2, col3 = st.columns([1, 3, 2])
+                with col1:
+                    selected = st.checkbox("", key=f"suggested_ms_{i}")
+                    if selected:
+                        selected_milestones.append(milestone)
+                with col2:
+                    st.markdown(f"**{milestone['name']}**")
+                    st.markdown(f"_{milestone['description']}_")
+                with col3:
+                    st.markdown(f"Date: {milestone['date']}")
+                    st.markdown(f"Type: {milestone['type'].capitalize()}")
+                st.divider()
+            
+            # Display suggested milestones feedback if present (right above the button)
+            if st.session_state.suggested_milestones_feedback:
+                feedback_type, feedback_message = st.session_state.suggested_milestones_feedback
+                if feedback_type == "success":
+                    st.success(feedback_message)
+                elif feedback_type == "error":
+                    st.error(feedback_message)
+                elif feedback_type == "warning":
+                    st.warning(feedback_message)
+                
+                # Clear the feedback after showing it
+                st.session_state.suggested_milestones_feedback = None
+            
+            # Add selected milestones
+            if st.button("Add Selected Milestones", use_container_width=True, disabled=not selected_milestones):
+                if selected_milestones:
+                    # Clear existing milestones if requested
+                    if use_only_suggested:
+                        st.session_state.session_milestones = []
+                        
+                    # Add selected milestones
+                    added_count = 0
+                    for milestone in selected_milestones:
+                        milestone_date = datetime.datetime.strptime(milestone['date'], "%Y-%m-%d").date()
+                        success, _ = add_milestone(milestone['name'], milestone_date, 
+                                                    milestone['description'], milestone['type'])
+                        if success:
+                            added_count += 1
+                    
+                    # Set local feedback for suggested milestones section
+                    st.session_state.suggested_milestones_feedback = ("success", f"✅ {added_count} suggested milestones added to your calendar!")
+                    # Also set the global feedback
+                    st.session_state.milestone_added_feedback = ("success", f"✅ {added_count} milestones added to your calendar!")
+                    st.rerun()
+        except Exception as e:
+            st.error(f"Error creating suggested milestones: {str(e)}")
+            st.info("You can still create custom milestones below.")
+        
+        st.markdown("---")
+    
+    # Custom milestone creation form
+    st.markdown("#### Add Custom Milestone")
+    
+    # Use form values from session state
+    milestone_name = st.text_input(
+        "Milestone Name", 
+        value=st.session_state.custom_milestone_form["name"],
+        placeholder="E.g., Website Launch",
+        key="milestone_name_input"
+    )
+    milestone_date = st.date_input(
+        "Date", 
+        value=st.session_state.custom_milestone_form["date"],
+        min_value=datetime.date.today(),
+        key="milestone_date_input"
+    )
+    milestone_description = st.text_area(
+        "Description", 
+        value=st.session_state.custom_milestone_form["description"],
+        placeholder="Describe this milestone",
+        key="milestone_description_input"
+    )
+    milestone_type = st.selectbox(
+        "Type", 
+        ["pre-launch", "launch", "post-launch"],
+        index=["pre-launch", "launch", "post-launch"].index(st.session_state.custom_milestone_form["type"]),
+        key="milestone_type_input"
+    )
+    
+    # Update session state with current values
+    st.session_state.custom_milestone_form["name"] = milestone_name
+    st.session_state.custom_milestone_form["date"] = milestone_date
+    st.session_state.custom_milestone_form["description"] = milestone_description
+    st.session_state.custom_milestone_form["type"] = milestone_type
+    
+    # Display local feedback message if present (right above the button)
+    if st.session_state.custom_milestone_local_feedback:
+        feedback_type, feedback_message = st.session_state.custom_milestone_local_feedback
+        if feedback_type == "success":
+            st.success(feedback_message)
+        elif feedback_type == "error":
+            st.error(feedback_message)
+        elif feedback_type == "warning":
+            st.warning(feedback_message)
+        
+        # Clear the local feedback after showing it
+        st.session_state.custom_milestone_local_feedback = None
+    
+    if st.button("Add to Calendar", use_container_width=True):
+        if milestone_name and milestone_description:
+            success, _ = add_milestone(milestone_name, milestone_date, milestone_description, milestone_type)
+            if success:
+                # Reset form after successful addition
+                st.session_state.custom_milestone_form = {
+                    "name": "",
+                    "date": datetime.date.today(),
+                    "description": "",
+                    "type": "pre-launch"
+                }
+                # Set local feedback for immediate display right above the button
+                st.session_state.custom_milestone_local_feedback = ("success", f"✅ Milestone '{milestone_name}' added to your calendar!")
+                # Also set the global feedback for display at the top of the page
+                st.session_state.milestone_added_feedback = ("success", f"✅ Milestone '{milestone_name}' added to your calendar!")
+                st.rerun()
+            else:
+                st.session_state.custom_milestone_local_feedback = ("error", "❌ Failed to add milestone. Please try again.")
+        else:
+            st.session_state.custom_milestone_local_feedback = ("error", "⚠️ Please enter a name and description for your milestone.")
+            
+    # Add a button to go to calendar view if user wants
+    st.markdown("---")
+    if st.button("View Your Calendar", use_container_width=True):
+        st.info("Click on the 'View Calendar' tab above to see your milestones.")
+
+def render_calendar_view(user_email):
+    """Render the View Calendar tab content"""
+    if not st.session_state.session_milestones:
+        st.info("You haven't added any milestones yet. Add some milestones to see them in your calendar.")
+    else:
+        # Add a reset calendar button
+        col1, col2 = st.columns([3, 1])
+        with col2:
+            if st.button("Reset Calendar", type="secondary"):
+                st.session_state.session_milestones = []
+                st.success("Calendar has been reset!")
+                st.rerun()
+        
+        # Use checkbox instead of toggle for edit mode
+        edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
+        
+        # Show total number of milestones at top
+        st.info(f"You have {len(st.session_state.session_milestones)} milestones in your calendar")
+        
+        # Use the improved timeline display with delete checkboxes if in edit mode
+        milestones_to_delete = display_improved_timeline(st.session_state.session_milestones, deletable=edit_mode)
+        
+        # Show delete button if in edit mode and milestones are selected
+        if edit_mode and milestones_to_delete:
+            if st.button(f"Delete Selected Milestones ({len(milestones_to_delete)})", type="primary"):
+                # Remove selected milestones
+                st.session_state.session_milestones = [
+                    m for m in st.session_state.session_milestones 
+                    if m["id"] not in milestones_to_delete
+                ]
+                
+                # Clear the selection state
+                if "milestones_to_delete" in st.session_state:
+                    st.session_state.milestones_to_delete = []
+                    
+                st.success(f"Deleted {len(milestones_to_delete)} milestone(s).")
+                st.rerun()
+        
+        # Add helpful info text instead of the Export section
+        if not edit_mode:
+            st.info("Click the 'Add to Calendar' button next to any milestone to add it to your Google Calendar.")

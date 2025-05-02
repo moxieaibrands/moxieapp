@@ -273,12 +273,23 @@ def step_9():
         def on_generate_plan():
             # Generate plan
             with st.spinner("Creating your personalized launch plan..."):
+                # Import EngageBay integration
+                from utils.engagebay_integration import send_to_engagebay
+                
                 # Load strategies from the utility function
                 external_strategies = load_strategies()
                 st.session_state.generated_plan = generate_launch_plan(
                     st.session_state.form_data, 
                     external_strategies
                 )
+                
+                # Send contact info to EngageBay
+                first_name = st.session_state.form_data.get('first_name', '')
+                email = st.session_state.form_data.get('email', '')
+                
+                if email:
+                    # Send to EngageBay in the background
+                    send_to_engagebay(first_name, email)
                 
                 # Set calendar preference
                 if selected == "✅ Yes, help me plan my launch timeline":
