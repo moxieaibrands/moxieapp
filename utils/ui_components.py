@@ -190,36 +190,42 @@ def step_card(title, content_func):
     st.markdown('</div>', unsafe_allow_html=True)
 
 def pricing_section():
-    """Display the pricing options grid"""
+    """Display the pricing options grid with clickable links"""
     st.markdown('<div class="pricing-grid">', unsafe_allow_html=True)
     
     # DIY Option
     st.markdown(
+        '<a href="https://www.moxieaibrands.com/diy-launch" target="_blank" style="text-decoration: none; color: inherit;">'
         '<div class="pricing-card">'
         '<p class="pricing-title">DIY</p>'
         '<p class="pricing-price">$29/month</p>'
         '<p class="pricing-description">Weekly roadmap</p>'
-        '</div>',
+        '</div>'
+        '</a>',
         unsafe_allow_html=True
     )
     
     # Coaching Option (highlighted)
     st.markdown(
+        '<a href="https://www.moxieaibrands.com/launch-coach" target="_blank" style="text-decoration: none; color: inherit;">'
         '<div class="pricing-card highlighted">'
         '<p class="pricing-title">Coaching</p>'
         '<p class="pricing-price">$500/month</p>'
         '<p class="pricing-description">Direct guidance</p>'
-        '</div>',
+        '</div>'
+        '</a>',
         unsafe_allow_html=True
     )
     
     # Full-Service Option with updated text
     st.markdown(
+        '<a href="https://www.moxieaibrands.com/high-impact-launch" target="_blank" style="text-decoration: none; color: inherit;">'
         '<div class="pricing-card">'
         '<p class="pricing-title">Full-Service</p>'
         '<p class="pricing-price">$5K/mo</p>'
         '<p class="pricing-description">Typically 3-6 months to launch</p>'
-        '</div>',
+        '</div>'
+        '</a>',
         unsafe_allow_html=True
     )
     
