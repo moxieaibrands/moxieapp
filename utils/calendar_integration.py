@@ -558,7 +558,7 @@ def render_add_milestones_view(launch_plan):
                     st.session_state.suggested_milestones_feedback = ("success", f"✅ {added_count} suggested milestones added to your calendar!")
                     # Also set the global feedback
                     st.session_state.milestone_added_feedback = ("success", f"✅ {added_count} milestones added to your calendar!")
-                    st.rerun()
+                    experimental_rerun()
         except Exception as e:
             st.error(f"Error creating suggested milestones: {str(e)}")
             st.info("You can still create custom milestones below.")
@@ -628,7 +628,7 @@ def render_add_milestones_view(launch_plan):
                 st.session_state.custom_milestone_local_feedback = ("success", f"✅ Milestone '{milestone_name}' added to your calendar!")
                 # Also set the global feedback for display at the top of the page
                 st.session_state.milestone_added_feedback = ("success", f"✅ Milestone '{milestone_name}' added to your calendar!")
-                st.rerun()
+                experimental_rerun()
             else:
                 st.session_state.custom_milestone_local_feedback = ("error", "❌ Failed to add milestone. Please try again.")
         else:
@@ -650,7 +650,7 @@ def render_calendar_view(user_email):
             if st.button("Reset Calendar", type="secondary"):
                 st.session_state.session_milestones = []
                 st.success("Calendar has been reset!")
-                st.rerun()
+                experimental_rerun()
         
         # Use checkbox instead of toggle for edit mode
         edit_mode = st.checkbox("Edit Mode (Select milestones to delete)", value=False)
@@ -675,7 +675,7 @@ def render_calendar_view(user_email):
                     st.session_state.milestones_to_delete = []
                     
                 st.success(f"Deleted {len(milestones_to_delete)} milestone(s).")
-                st.rerun()
+                experimental_rerun()
         
         # Add helpful info text instead of the Export section
         if not edit_mode:

@@ -155,7 +155,7 @@ def step_navigation(back=True, next_label="Next →", next_disabled=True, on_nex
         with col1:
             if st.button("← Back", key="back_button", use_container_width=True):
                 st.session_state.step -= 1
-                st.rerun()
+                experimental_rerun()
         
         with col2:
             if st.button(next_label, disabled=next_disabled, key="next_button", use_container_width=True):
@@ -163,7 +163,7 @@ def step_navigation(back=True, next_label="Next →", next_disabled=True, on_nex
                     on_next()
                 else:
                     st.session_state.step += 1
-                    st.rerun()
+                    experimental_rerun()
     else:
         # If no back button needed, only show Next button full width
         if st.button(next_label, disabled=next_disabled, key="next_button", use_container_width=True):
@@ -171,7 +171,7 @@ def step_navigation(back=True, next_label="Next →", next_disabled=True, on_nex
                 on_next()
             else:
                 st.session_state.step += 1
-                st.rerun()
+                experimental_rerun()
 
 def step_card(title, content_func):
     """
