@@ -29,7 +29,7 @@ def send_email_to_user(recipient_email, plan):
         # Create message container
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "Your High-Impact Launch Plan 🚀"
-        msg['From'] = f"Moxie Launch Assistant <{smtp_username}>"
+        msg['From'] = f"Roy at Moxie <{smtp_username}>"
         msg['To'] = recipient_email
         
         # Create the email content
