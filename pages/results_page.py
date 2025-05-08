@@ -124,7 +124,7 @@ def display_results():
                         if success:
                             st.session_state.email_sent = True
                             st.success("Plan sent to your email!")
-                            st.rerun()
+                            st.experimental_rerun()
                         else:
                             st.error("Failed to send email. Please try again.")
                     else:
@@ -135,7 +135,7 @@ def display_results():
         with col2:
             if st.button("Schedule in Calendar", use_container_width=True):
                 st.session_state.show_calendar = True
-                st.rerun()
+                st.experimental_rerun()
         
         # Pricing section
         st.markdown("<h3>Get Additional Support</h3>", unsafe_allow_html=True)

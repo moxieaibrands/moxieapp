@@ -43,11 +43,11 @@ def display_calendar():
     with col1:
         if st.button("← Back to Launch Plan", use_container_width=True):
             st.session_state.show_calendar = False
-            st.rerun()
+            st.experimental_rerun()
     
     with col2:
         if st.button("Continue", use_container_width=True):
             st.session_state.show_calendar = False
-            st.rerun()
+            st.experimental_rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
