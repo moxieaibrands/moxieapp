@@ -33,7 +33,7 @@ def step_1():
             st.session_state.form_data['startup_name'] = startup_name
             st.session_state.form_data['email'] = email
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
         
         step_navigation(back=False, next_disabled=next_disabled, on_next=on_next)
     
@@ -55,7 +55,7 @@ def step_2():
         def on_next():
             st.session_state.form_data['messaging_tested'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -81,7 +81,7 @@ def step_3():
         def on_next():
             st.session_state.form_data['launch_type'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -104,7 +104,7 @@ def step_4():
         def on_next():
             st.session_state.form_data['funding_status'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -130,7 +130,7 @@ def step_5():
         def on_next():
             st.session_state.form_data['primary_goal'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -155,7 +155,7 @@ def step_6():
         def on_next():
             st.session_state.form_data['audience_readiness'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -187,7 +187,7 @@ def step_7():
         def on_next():
             st.session_state.form_data['post_launch_priority'] = selected
             st.session_state.step += 1
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(next_disabled=not selected, on_next=on_next)
     
@@ -245,7 +245,7 @@ def step_8():
                 st.session_state.form_data['industry'] = None
                 
             st.session_state.step += 1
-            st.experimental_rerun()  # Changed from st.st.experimental_rerun() to st.experimental_rerun()
+            st.rerun()  # Changed from st.st.rerun() to st.rerun()
         
         # Next button should be disabled if "Other" is selected but no text is entered
         next_is_disabled = not selected or ("Other" in selected and not other_industry)
@@ -297,7 +297,7 @@ def step_9():
                 else:
                     st.session_state.show_calendar = False
                     
-            st.experimental_rerun()
+            st.rerun()
             
         step_navigation(
             next_label="Generate My Launch Plan", 
